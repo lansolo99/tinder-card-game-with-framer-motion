@@ -3,10 +3,10 @@ import {
   motion,
   useMotionValue,
   useTransform,
-  cubicBezier,
   useMotionValueEvent,
-  circOut,
 } from "framer-motion";
+
+import { useGameContext } from "@/store/gameContext";
 import { card } from "@/types/games.type";
 
 type Props = {
@@ -15,25 +15,33 @@ type Props = {
 };
 
 const GameCard = ({ id, data }: Props) => {
+  const { game, handleSetOptions } = useGameContext();
+
   const { affirmation } = data;
   const x = useMotionValue(0);
 
-  useMotionValueEvent(x, "change", (latest) => console.log(`x:${latest}`));
+  // useMotionValueEvent(x, "change", (latest) => console.log(`x:${latest}`));
 
-  const xInput = [-200, 0, 400];
+  const inputX = [-400, 0, 400];
+  const outputY = [100, 0, 100];
+  const outputX = [-200, 0, 200];
+  const outputRotate = [-20, 0, 20];
 
-  const yOutput = [100, 0, 100];
-  const rotateOutput = [-20, 0, 20];
-
-  let y = useTransform(x, xInput, yOutput);
-  let rotation = useTransform(x, xInput, rotateOutput);
+  let drivenX = useTransform(x, inputX, outputX);
+  let drivenY = useTransform(x, inputX, outputY);
+  let drivenRotation = useTransform(x, inputX, outputRotate);
 
   return (
     <>
       <motion.div
         id={`cardDrivenWrapper-${id}`}
-        className="absolute bg-white p-4 shadow-lg rounded-lg text-center w-full aspect-[100/150] pointer-events-none   text-black origin-bottom"
-        style={{ y, rotate: rotation }}
+        className="absolute bg-white p-4 rounded-lg text-center w-full aspect-[100/150] pointer-events-none text-black origin-bottom shadow-card"
+        style={{
+          y: drivenY,
+          rotate: drivenRotation,
+          x: drivenX,
+          // top: -20 * id,
+        }}
       >
         <div id="metrics" className="flex w-full  justify-between">
           <div>1/10</div>
@@ -50,12 +58,24 @@ const GameCard = ({ id, data }: Props) => {
 
       <motion.div
         id={`cardDriverWrapper-${id}`}
-        className="absolute bg-blue-500/0 w-full aspect-[100/150] hover:cursor-grab active:cursor-grab select-none"
+        className={`absolute bg-blue-500/0 w-full aspect-[100/150] hover:cursor-grab active:cursor-grab select-none`}
         drag="x"
         dragSnapToOrigin
-        dragElastic={0.25}
-        dragConstraints={{ left: -100, right: 100 }}
+        dragElastic={0.5}
+        dragConstraints={{ left: 0, right: 0 }}
         dragTransition={{ bounceStiffness: 1000, bounceDamping: 50 }}
+        // onDragEnd={(_, info) => {
+        //   console.log("dragEnd");
+        //   // setIsDragging(false);
+
+        //   if (handleOnDrag)
+        //     handleOnDrag({
+        //       action: "end",
+        //       id: id,
+        //       index: index,
+        //       draggableCoords: { x: info.point.x, y: info.point.y },
+        //     });
+        // }}
         style={{ x }}
       ></motion.div>
     </>
