@@ -8,7 +8,12 @@ import { gamesData } from "@/datas";
 
 const game1 = gamesData[0];
 const { cards } = game1;
-const reversedCards = cards.reverse();
+
+const reversedCards = cards
+  .map((item, i) => {
+    return { ...item, id: i + 1 };
+  })
+  .reverse();
 
 const initialState = {
   currentGame: reversedCards,

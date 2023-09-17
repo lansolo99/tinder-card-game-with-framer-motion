@@ -23,9 +23,10 @@ const GameCard = ({ id, data }: Props) => {
   // useMotionValueEvent(x, "change", (latest) => console.log(`x:${latest}`));
 
   const inputX = [-400, 0, 400];
-  const outputY = [100, 0, 100];
+  const outputY = [50, 0, 50];
   const outputX = [-200, 0, 200];
-  const outputRotate = [-20, 0, 20];
+  const outputRotate = [-40, 0, 40];
+  const offsetBoundary = 150;
 
   let drivenX = useTransform(x, inputX, outputX);
   let drivenY = useTransform(x, inputX, outputY);
@@ -40,11 +41,10 @@ const GameCard = ({ id, data }: Props) => {
           y: drivenY,
           rotate: drivenRotation,
           x: drivenX,
-          // top: -20 * id,
         }}
       >
         <div id="metrics" className="flex w-full  justify-between">
-          <div>1/10</div>
+          <div>{id}/10</div>
           <div>1</div>
         </div>
         <div
@@ -64,18 +64,14 @@ const GameCard = ({ id, data }: Props) => {
         dragElastic={0.5}
         dragConstraints={{ left: 0, right: 0 }}
         dragTransition={{ bounceStiffness: 1000, bounceDamping: 50 }}
-        // onDragEnd={(_, info) => {
-        //   console.log("dragEnd");
-        //   // setIsDragging(false);
-
-        //   if (handleOnDrag)
-        //     handleOnDrag({
-        //       action: "end",
-        //       id: id,
-        //       index: index,
-        //       draggableCoords: { x: info.point.x, y: info.point.y },
-        //     });
-        // }}
+        onDragEnd={(_, info) => {
+          const isOffBoundary =
+            info.offset.x > offsetBoundary || info.offset.x < -offsetBoundary;
+          if (isOffBoundary) {
+            const newCurrentGame = game.currentGame.slice(0, -1);
+            handleSetOptions({ currentGame: newCurrentGame });
+          }
+        }}
         style={{ x }}
       ></motion.div>
     </>
