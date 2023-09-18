@@ -61,7 +61,7 @@ const GameCard = ({ id, data }: Props) => {
         className={`absolute bg-blue-500/0 w-full aspect-[100/150] hover:cursor-grab active:cursor-grab select-none`}
         drag="x"
         dragSnapToOrigin
-        dragElastic={0.5}
+        dragElastic={0.2}
         dragConstraints={{ left: 0, right: 0 }}
         dragTransition={{ bounceStiffness: 1000, bounceDamping: 50 }}
         onDragEnd={(_, info) => {
