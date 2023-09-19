@@ -92,8 +92,7 @@ const GameCard = ({ id, data, setCardAnimation }: Props) => {
           const isOffBoundary =
             info.offset.x > offsetBoundary || info.offset.x < -offsetBoundary;
           if (isOffBoundary) {
-            const newCurrentGame = game.currentGame.slice(0, -1);
-            handleSetOptions({ currentGame: newCurrentGame });
+            handleSetOptions({ currentGame: game.currentGame.slice(0, -1) });
           }
         }}
         style={{ x }}

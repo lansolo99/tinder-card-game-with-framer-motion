@@ -51,9 +51,6 @@ const Game = () => {
         id="gameUIWrapper"
         className="bg-orange-500 flex flex-col gap-6 w-full items-center justify-center"
       >
-        {/* <div id="topbar" className="w-full bg-purple-500">
-         
-        </div> */}
         <div
           id="cardsWrapper"
           className="w-full aspect-[100/150] max-w-xs mb-[20px] relative "
@@ -92,11 +89,15 @@ const Game = () => {
             direction="left"
             ariaLabel="swipe left"
             scale={cardAnimation.buttonScaleBadAnswer}
+            game={game}
+            handleSetOptions={handleSetOptions}
           />
           <GameActionBtn
             direction="right"
             ariaLabel="swipe right"
             scale={cardAnimation.buttonScaleGoodAnswer}
+            game={game}
+            handleSetOptions={handleSetOptions}
           />
         </div>
       </div>
