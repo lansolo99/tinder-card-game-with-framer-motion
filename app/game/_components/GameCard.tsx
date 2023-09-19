@@ -1,4 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+
+import { useEffect, Dispatch, SetStateAction } from "react";
 import {
   motion,
   useMotionValue,
@@ -12,9 +15,10 @@ import { card } from "@/types/games.type";
 type Props = {
   id: number;
   data: card;
+  setCardAnimation: Dispatch<SetStateAction<number>>;
 };
 
-const GameCard = ({ id, data }: Props) => {
+const GameCard = ({ id, data, setCardAnimation }: Props) => {
   const { game, handleSetOptions } = useGameContext();
 
   const { affirmation } = data;
@@ -26,11 +30,22 @@ const GameCard = ({ id, data }: Props) => {
   const outputY = [50, 0, 50];
   const outputX = [-200, 0, 200];
   const outputRotate = [-40, 0, 40];
+  const outputActionScaleBadAnswer = [2.5, 1, 1];
+
   const offsetBoundary = 150;
 
   let drivenX = useTransform(x, inputX, outputX);
   let drivenY = useTransform(x, inputX, outputY);
   let drivenRotation = useTransform(x, inputX, outputRotate);
+  let drivenActionScale = useTransform(x, inputX, outputActionScaleBadAnswer);
+
+  useEffect(() => {
+    const unsubscribe = drivenActionScale.onChange((value) => {
+      setCardAnimation(value);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
@@ -49,7 +64,7 @@ const GameCard = ({ id, data }: Props) => {
         </div>
         <div
           id="illustration"
-          className="w-2/3 mx-auto max-w-[200px] aspect-square rounded-full bg-green-500  mt-4"
+          className="w-2/3 mx-auto max-w-[200px] aspect-square rounded-full bg-green-500 mt-4"
         ></div>
         <p id="affirmation" className="mt-6">
           {affirmation}

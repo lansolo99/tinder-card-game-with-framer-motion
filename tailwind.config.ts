@@ -8,6 +8,14 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        answerBad: {
+          500: "#F75064",
+        },
+        answerGood: {
+          500: "#82D350",
+        },
+      },
       boxShadow: {
         card: "0 0px 15px -2px rgb(0 0 0 / 0.2), 0 0 3px -2px rgb(0 0 0 / 0.1)",
       },
