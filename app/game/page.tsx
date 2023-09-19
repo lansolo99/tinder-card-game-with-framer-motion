@@ -1,42 +1,24 @@
 "use client";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence, useTransform } from "framer-motion";
-import SvgIconAnswerBad from "@/components/svg/icon-answer-bad.svg";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { useGameContext } from "@/store/gameContext";
 import { easeOutExpo } from "@/lib/easings.data";
 
-import { GameCard } from "./_components";
+import { GameActionBtn, GameCard } from "./_components";
+
+const initialDrivenProps = {
+  buttonScaleBadAnswer: 1,
+  buttonScaleGoodAnswer: 1,
+};
 
 const Game = () => {
-  const [cardAnimation, setCardAnimation] = useState(1);
+  const [cardAnimation, setCardAnimation] = useState(initialDrivenProps);
   const { game, handleSetOptions } = useGameContext();
   const { currentGame } = game;
 
-  const handleChildValueChange = (newValue: number): number => {
-    // Do something with the new motion value from the child
-    // console.log("Motion Value from Child:", newValue);
-    return newValue;
-  };
-
-  const inputX = [-400, 0, 400];
-  const outputActionScaleBadAnswer = [2.5, 1, 1];
-
-  // let drivenActionScale = useTransform(
-  //   cardAnimation as any,
-  //   inputX,
-  //   outputActionScaleBadAnswer
-  // );
-
-  // useEffect(() => {
-  //   // console.log("cardAnimation: ", cardAnimation);
-  //   // console.log("handleChildValueChange: ", handleChildValueChange);
-  //   console.log("drivenActionScale: ", drivenActionScale);
-  // }, [cardAnimation, drivenActionScale, handleChildValueChange]);
-
   useEffect(() => {
     console.log("cardAnimation: ", cardAnimation);
-    // console.log("drivenActionScale: ", drivenActionScale);
   }, [cardAnimation]);
 
   const cardVariants = {
@@ -69,9 +51,9 @@ const Game = () => {
         id="gameUIWrapper"
         className="bg-orange-500 flex flex-col gap-6 w-full items-center justify-center"
       >
-        <div id="topbar" className="w-full bg-purple-500">
-          {/* countdown + close */}
-        </div>
+        {/* <div id="topbar" className="w-full bg-purple-500">
+         
+        </div> */}
         <div
           id="cardsWrapper"
           className="w-full aspect-[100/150] max-w-xs mb-[20px] relative "
@@ -96,30 +78,27 @@ const Game = () => {
                     data={card}
                     id={card.id}
                     setCardAnimation={setCardAnimation}
-                    onValueChange={handleChildValueChange}
                   />
                 </motion.div>
               );
             })}
           </AnimatePresence>
         </div>
-        <motion.div
+        <div
           id="actions"
-          className="flex items-center justify-center w-full bg-blue-500"
+          className="flex items-center justify-center w-full  gap-4"
         >
-          <motion.button
-            aria-label="swipe left"
-            className="flex items-center justify-center w-[60px] h-[60px] rounded-full  bg-answerBad-500 shadow"
-            // style={{ scale: cardAnimation }}
-            // style={{ scale: drivenActionScale }}
-
-            // style={{ transform: `scale(${handleChildValueChange})` }}
-
-            // style={{ scale: cardAnimation }}
-          >
-            <SvgIconAnswerBad className="w-[24px] h-[24px]" />
-          </motion.button>
-        </motion.div>
+          <GameActionBtn
+            direction="left"
+            ariaLabel="swipe left"
+            scale={cardAnimation.buttonScaleBadAnswer}
+          />
+          <GameActionBtn
+            direction="right"
+            ariaLabel="swipe right"
+            scale={cardAnimation.buttonScaleGoodAnswer}
+          />
+        </div>
       </div>
     </main>
   );

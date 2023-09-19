@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useEffect, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import {
   motion,
   useMotionValue,
@@ -15,50 +15,46 @@ import { card } from "@/types/games.type";
 type Props = {
   id: number;
   data: card;
-  setCardAnimation: Dispatch<SetStateAction<number>>;
-  onValueChange: (value: number) => void;
+  setCardAnimation: Dispatch<SetStateAction<any>>;
 };
 
-const GameCard = ({ id, data, setCardAnimation, onValueChange }: Props) => {
+const GameCard = ({ id, data, setCardAnimation }: Props) => {
   const { game, handleSetOptions } = useGameContext();
 
   const { affirmation } = data;
   const x = useMotionValue(0);
 
-  // useMotionValueEvent(x, "change", (latest) => console.log(`x:${latest}`));
-
   const inputX = [-400, 0, 400];
   const outputY = [50, 0, 50];
   const outputX = [-200, 0, 200];
   const outputRotate = [-40, 0, 40];
-  const outputActionScaleBadAnswer = [2.5, 1, 1];
+  const outputActionScaleBadAnswer = [3, 1, 1];
+  const outputActionScaleRightAnswer = [1, 1, 3];
 
   const offsetBoundary = 150;
 
   let drivenX = useTransform(x, inputX, outputX);
   let drivenY = useTransform(x, inputX, outputY);
   let drivenRotation = useTransform(x, inputX, outputRotate);
-  let drivenActionScale = useTransform(x, inputX, outputActionScaleBadAnswer);
+  let drivenActionLeftScale = useTransform(
+    x,
+    inputX,
+    outputActionScaleBadAnswer
+  );
+  let drivenActionRightScale = useTransform(
+    x,
+    inputX,
+    outputActionScaleRightAnswer
+  );
 
-  // useEffect(() => {
-  //   const unsubscribe = drivenActionScale.onChange((value) => {
-  //     setCardAnimation(value);
-  //   });
-
-  //   return () => unsubscribe();
-  // }, []);
-
-  // useEffect(() => {
-  //   const unsubscribe = x.onChange((value) => {
-  //     // setCardAnimation(value);
-  //     onValueChange(value);
-  //   });
-
-  //   return () => unsubscribe();
-  // }, []);
-
-  // useMotionValueEvent(x, "change", (latest) => onValueChange(latest));
-  useMotionValueEvent(x, "change", (latest) => setCardAnimation(latest));
+  useMotionValueEvent(drivenActionLeftScale, "change", (latest) => {
+    //@ts-ignore
+    setCardAnimation((state) => ({
+      ...state,
+      buttonScaleBadAnswer: drivenActionLeftScale,
+      buttonScaleGoodAnswer: drivenActionRightScale,
+    }));
+  });
 
   return (
     <>
@@ -86,7 +82,7 @@ const GameCard = ({ id, data, setCardAnimation, onValueChange }: Props) => {
 
       <motion.div
         id={`cardDriverWrapper-${id}`}
-        className={`absolute bg-blue-500/0 w-full aspect-[100/150] hover:cursor-grab active:cursor-grab select-none`}
+        className={`absolute w-full aspect-[100/150] hover:cursor-grab active:cursor-grab select-none`}
         drag="x"
         dragSnapToOrigin
         dragElastic={0.2}
