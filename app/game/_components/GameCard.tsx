@@ -16,9 +16,10 @@ type Props = {
   id: number;
   data: card;
   setCardAnimation: Dispatch<SetStateAction<number>>;
+  onValueChange: (value: number) => void;
 };
 
-const GameCard = ({ id, data, setCardAnimation }: Props) => {
+const GameCard = ({ id, data, setCardAnimation, onValueChange }: Props) => {
   const { game, handleSetOptions } = useGameContext();
 
   const { affirmation } = data;
@@ -39,13 +40,25 @@ const GameCard = ({ id, data, setCardAnimation }: Props) => {
   let drivenRotation = useTransform(x, inputX, outputRotate);
   let drivenActionScale = useTransform(x, inputX, outputActionScaleBadAnswer);
 
-  useEffect(() => {
-    const unsubscribe = drivenActionScale.onChange((value) => {
-      setCardAnimation(value);
-    });
+  // useEffect(() => {
+  //   const unsubscribe = drivenActionScale.onChange((value) => {
+  //     setCardAnimation(value);
+  //   });
 
-    return () => unsubscribe();
-  }, []);
+  //   return () => unsubscribe();
+  // }, []);
+
+  // useEffect(() => {
+  //   const unsubscribe = x.onChange((value) => {
+  //     // setCardAnimation(value);
+  //     onValueChange(value);
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
+
+  // useMotionValueEvent(x, "change", (latest) => onValueChange(latest));
+  useMotionValueEvent(x, "change", (latest) => setCardAnimation(latest));
 
   return (
     <>

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useTransform } from "framer-motion";
 import SvgIconAnswerBad from "@/components/svg/icon-answer-bad.svg";
 
 import { useGameContext } from "@/store/gameContext";
@@ -13,8 +13,30 @@ const Game = () => {
   const { game, handleSetOptions } = useGameContext();
   const { currentGame } = game;
 
+  const handleChildValueChange = (newValue: number): number => {
+    // Do something with the new motion value from the child
+    // console.log("Motion Value from Child:", newValue);
+    return newValue;
+  };
+
+  const inputX = [-400, 0, 400];
+  const outputActionScaleBadAnswer = [2.5, 1, 1];
+
+  // let drivenActionScale = useTransform(
+  //   cardAnimation as any,
+  //   inputX,
+  //   outputActionScaleBadAnswer
+  // );
+
+  // useEffect(() => {
+  //   // console.log("cardAnimation: ", cardAnimation);
+  //   // console.log("handleChildValueChange: ", handleChildValueChange);
+  //   console.log("drivenActionScale: ", drivenActionScale);
+  // }, [cardAnimation, drivenActionScale, handleChildValueChange]);
+
   useEffect(() => {
     console.log("cardAnimation: ", cardAnimation);
+    // console.log("drivenActionScale: ", drivenActionScale);
   }, [cardAnimation]);
 
   const cardVariants = {
@@ -74,6 +96,7 @@ const Game = () => {
                     data={card}
                     id={card.id}
                     setCardAnimation={setCardAnimation}
+                    onValueChange={handleChildValueChange}
                   />
                 </motion.div>
               );
@@ -87,7 +110,11 @@ const Game = () => {
           <motion.button
             aria-label="swipe left"
             className="flex items-center justify-center w-[60px] h-[60px] rounded-full  bg-answerBad-500 shadow"
-            style={{ scale: cardAnimation }}
+            // style={{ scale: cardAnimation }}
+            // style={{ scale: drivenActionScale }}
+
+            // style={{ transform: `scale(${handleChildValueChange})` }}
+
             // style={{ scale: cardAnimation }}
           >
             <SvgIconAnswerBad className="w-[24px] h-[24px]" />
