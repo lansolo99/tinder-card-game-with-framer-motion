@@ -7,6 +7,7 @@ import {
   useMotionValue,
   useTransform,
   useMotionValueEvent,
+  cubicBezier,
 } from "framer-motion";
 
 import { useGameContext } from "@/store/gameContext";
@@ -24,12 +25,13 @@ const GameCard = ({ id, data, setCardAnimation }: Props) => {
   const { affirmation } = data;
   const x = useMotionValue(0);
 
-  const inputX = [-400, 0, 400];
-  const outputY = [50, 0, 50];
+  const inputX = [-150, 0, 150];
   const outputX = [-200, 0, 200];
+  const outputY = [50, 0, 50];
   const outputRotate = [-40, 0, 40];
   const outputActionScaleBadAnswer = [3, 1, 1];
   const outputActionScaleRightAnswer = [1, 1, 3];
+  const outputMainBgColor = ["#FF0000", "#daeff2", "#94ff00"];
 
   const offsetBoundary = 150;
 
@@ -46,6 +48,7 @@ const GameCard = ({ id, data, setCardAnimation }: Props) => {
     inputX,
     outputActionScaleRightAnswer
   );
+  let drivenBg = useTransform(x, inputX, outputMainBgColor);
 
   useMotionValueEvent(drivenActionLeftScale, "change", (latest) => {
     //@ts-ignore
@@ -53,6 +56,7 @@ const GameCard = ({ id, data, setCardAnimation }: Props) => {
       ...state,
       buttonScaleBadAnswer: drivenActionLeftScale,
       buttonScaleGoodAnswer: drivenActionRightScale,
+      mainBgColor: drivenBg,
     }));
   });
 
@@ -85,7 +89,7 @@ const GameCard = ({ id, data, setCardAnimation }: Props) => {
         className={`absolute w-full aspect-[100/150] hover:cursor-grab active:cursor-grab select-none`}
         drag="x"
         dragSnapToOrigin
-        dragElastic={0.2}
+        dragElastic={0.06}
         dragConstraints={{ left: 0, right: 0 }}
         dragTransition={{ bounceStiffness: 1000, bounceDamping: 50 }}
         onDragEnd={(_, info) => {

@@ -25,12 +25,7 @@ type Props = {
   onClick: () => void;
 };
 
-const GameActionBtn = ({
-  scale,
-  direction,
-
-  onClick,
-}: Props) => {
+const GameActionBtn = ({ scale, direction, onClick }: Props) => {
   const Icon: React.ElementType = actionPropsMatrix[direction!].icon;
   return (
     <button onClick={onClick}>

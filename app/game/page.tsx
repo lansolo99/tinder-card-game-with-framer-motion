@@ -11,6 +11,7 @@ import { GameActionBtn, GameCard } from "./_components";
 const initialDrivenProps = {
   buttonScaleBadAnswer: 1,
   buttonScaleGoodAnswer: 1,
+  mainBgColor: "#daeff2",
 };
 
 const Game = () => {
@@ -20,13 +21,13 @@ const Game = () => {
   const [direction, setDirection] = useState("");
 
   const handleActionBtnOnClick = (btn: "left" | "right") => {
-    setDirection((state) => btn);
+    setDirection(btn);
   };
 
   useEffect(() => {
     if (["left", "right"].includes(direction))
       handleSetOptions({ currentGame: game.currentGame.slice(0, -1) });
-    setDirection((state) => "");
+    setDirection("");
   }, [direction]);
 
   const cardVariants = {
@@ -57,10 +58,13 @@ const Game = () => {
   };
 
   return (
-    <main className="container min-h-screen h-full mx-auto bg-red-500 flex p-5 flex-col justify-center items-center overflow-hidden">
+    <motion.main
+      className="container min-h-screen h-full mx-auto bg-red-500 flex p-5 flex-col justify-center items-center overflow-hidden"
+      style={{ backgroundColor: cardAnimation.mainBgColor }}
+    >
       <div
         id="gameUIWrapper"
-        className="bg-orange-500 flex flex-col gap-6 w-full items-center justify-center"
+        className="flex flex-col gap-6 w-full items-center justify-center"
       >
         <div
           id="cardsWrapper"
@@ -110,7 +114,7 @@ const Game = () => {
           />
         </div>
       </div>
-    </main>
+    </motion.main>
   );
 };
 
