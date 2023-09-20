@@ -1,7 +1,7 @@
 export type card = {
   id: number;
   affirmation: string;
-  answer: boolean;
+  answer: string;
   revised: string;
   illustration: string;
 };

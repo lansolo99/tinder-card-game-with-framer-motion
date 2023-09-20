@@ -8,6 +8,8 @@ import { easeOutExpo } from "@/lib/easings.data";
 
 import { GameActionBtn, GameCard } from "./_components";
 
+type btnDirection = "left" | "right";
+
 const initialDrivenProps = {
   buttonScaleBadAnswer: 1,
   buttonScaleGoodAnswer: 1,
@@ -17,16 +19,26 @@ const initialDrivenProps = {
 const Game = () => {
   const [cardAnimation, setCardAnimation] = useState(initialDrivenProps);
   const { game, handleSetOptions } = useGameContext();
-  const { currentGame } = game;
+  const { currentGame, score } = game;
   const [direction, setDirection] = useState("");
 
-  const handleActionBtnOnClick = (btn: "left" | "right") => {
+  const handleActionBtnOnClick = (btn: btnDirection) => {
     setDirection(btn);
+  };
+
+  const handleScore = (direction: btnDirection) => {
+    const currentCard = currentGame[currentGame.length - 1];
+    const scoreIncrement = currentCard.answer === direction ? 1 : 0;
+    return score + scoreIncrement;
   };
 
   useEffect(() => {
     if (["left", "right"].includes(direction))
-      handleSetOptions({ currentGame: game.currentGame.slice(0, -1) });
+      handleSetOptions({
+        currentGame: currentGame.slice(0, -1),
+        score: handleScore(direction as btnDirection),
+      });
+
     setDirection("");
   }, [direction]);
 

@@ -10,6 +10,6 @@ export interface IGameContext {
 }
 
 export interface IGameState {
-  // [key: string]: any;
   currentGame: card[];
+  score: number;
 }

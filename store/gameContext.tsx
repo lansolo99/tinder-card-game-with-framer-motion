@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 import { IProvider, IGameContext, IGameState } from "@/types/context.type";
 
@@ -17,6 +17,7 @@ const reversedCards = cards
 
 const initialState = {
   currentGame: reversedCards,
+  score: 0,
 };
 
 const GameContext = createContext<IGameContext>({} as IGameContext);

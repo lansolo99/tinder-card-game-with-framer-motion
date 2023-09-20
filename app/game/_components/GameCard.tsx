@@ -7,7 +7,6 @@ import {
   useMotionValue,
   useTransform,
   useMotionValueEvent,
-  cubicBezier,
 } from "framer-motion";
 
 import { useGameContext } from "@/store/gameContext";
@@ -19,8 +18,11 @@ type Props = {
   setCardAnimation: Dispatch<SetStateAction<any>>;
 };
 
+type cardSwipeDirection = "left" | "right";
+
 const GameCard = ({ id, data, setCardAnimation }: Props) => {
   const { game, handleSetOptions } = useGameContext();
+  const { currentGame, score } = game;
 
   const { affirmation } = data;
   const x = useMotionValue(0);
@@ -60,6 +62,12 @@ const GameCard = ({ id, data, setCardAnimation }: Props) => {
     }));
   });
 
+  const handleScore = (direction: cardSwipeDirection) => {
+    const currentCard = currentGame[currentGame.length - 1];
+    const scoreIncrement = currentCard.answer === direction ? 1 : 0;
+    return score + scoreIncrement;
+  };
+
   return (
     <>
       <motion.div
@@ -73,7 +81,7 @@ const GameCard = ({ id, data, setCardAnimation }: Props) => {
       >
         <div id="metrics" className="flex w-full  justify-between">
           <div>{id}/10</div>
-          <div>1</div>
+          <div>{score}</div>
         </div>
         <div
           id="illustration"
@@ -95,8 +103,12 @@ const GameCard = ({ id, data, setCardAnimation }: Props) => {
         onDragEnd={(_, info) => {
           const isOffBoundary =
             info.offset.x > offsetBoundary || info.offset.x < -offsetBoundary;
+          const direction = info.offset.x > 0 ? "right" : "left";
           if (isOffBoundary) {
-            handleSetOptions({ currentGame: game.currentGame.slice(0, -1) });
+            handleSetOptions({
+              currentGame: currentGame.slice(0, -1),
+              score: handleScore(direction as cardSwipeDirection),
+            });
           }
         }}
         style={{ x }}
