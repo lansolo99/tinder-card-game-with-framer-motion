@@ -3,7 +3,8 @@
 
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
-import styles from "./styles.module.css";
+// import styles from "./styles.module.css";
+import imageMask from "../../../assets/gamecard-image-mask.png";
 
 import {
   motion,
@@ -25,6 +26,7 @@ type Props = {
 type cardSwipeDirection = "left" | "right";
 
 const GameCard = ({ id, data, setCardAnimation }: Props) => {
+  console.log("imageMask: ", imageMask.src);
   const { game, handleSetOptions } = useGameContext();
   const { currentGame, score } = game;
 
@@ -153,12 +155,34 @@ const GameCard = ({ id, data, setCardAnimation }: Props) => {
             />
           </svg> */}
 
-          <Image
-            className={styles.image}
+          {/* <Image
+            // className={styles.image}
+            className="absolute object-cover object-center w-full h-full"
             src={`/images/games/game-0-card-car.jpg`}
             fill
             sizes={`(max-width: 768px) 100vw, 280px`}
             alt="car"
+            style={{
+              maskImage: `url(${imageMask.src})`,
+              maskSize: "contain",
+              maskRepeat: "no-repeat",
+            }}
+          /> */}
+
+          <Image
+            // className={styles.image}
+            className="absolute object-cover object-center "
+            src={`/images/games/game-0-card-car.jpg`}
+            fill
+            sizes={`(max-width: 768px) 100vw, 280px`}
+            alt="car"
+            style={{
+              maskImage: `url(${imageMask.src})`,
+              WebkitMaskImage: `url(${imageMask.src})`,
+              maskSize: "contain",
+              WebkitMaskSize: "contain",
+              maskRepeat: "no-repeat",
+            }}
           />
         </div>
         <p id="affirmation" className="mt-6 text-[20px]">

@@ -9,5 +9,9 @@
 }
 .image {
   @apply absolute object-cover object-center w-full h-full;
-  //mask-image: url(#yourMask);
+  mask-image: url('/images/');
+    //   maskImage: `url(${imageMask.src})`,
+            //   -webkitMaskImage: url(star.svg);
+            //   maskSize: "contain",
+            //   maskRepeat: "no-repeat",
 }
