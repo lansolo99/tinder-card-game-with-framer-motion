@@ -1,3 +1,4 @@
+const { fontFamily } = require("tailwindcss/defaultTheme");
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -15,6 +16,15 @@ const config: Config = {
         answerGood: {
           500: "#82D350",
         },
+        grey: {
+          500: "#6A6A6A",
+        },
+      },
+      fontFamily: {
+        sans: [...fontFamily.sans],
+        acuminBold: ["Acumin-Bold", ...fontFamily.sans],
+        acuminMedium: ["Acumin-Medium", ...fontFamily.sans],
+        acuminLight: ["Acumin-Light", ...fontFamily.sans],
       },
       boxShadow: {
         card: "0 0px 15px -2px rgb(0 0 0 / 0.2), 0 0 3px -2px rgb(0 0 0 / 0.1)",

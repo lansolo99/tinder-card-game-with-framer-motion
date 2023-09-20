@@ -2,6 +2,7 @@
 "use client";
 
 import { Dispatch, SetStateAction } from "react";
+
 import {
   motion,
   useMotionValue,
@@ -11,6 +12,7 @@ import {
 
 import { useGameContext } from "@/store/gameContext";
 import { card } from "@/types/games.type";
+import SvgIconScoreLeaf from "@/components/svg/score-leaf.svg";
 
 type Props = {
   id: number;
@@ -72,22 +74,35 @@ const GameCard = ({ id, data, setCardAnimation }: Props) => {
     <>
       <motion.div
         id={`cardDrivenWrapper-${id}`}
-        className="absolute bg-white p-4 rounded-lg text-center w-full aspect-[100/150] pointer-events-none text-black origin-bottom shadow-card"
+        className="absolute bg-white p-8  rounded-lg text-center w-full aspect-[100/150] pointer-events-none text-black origin-bottom shadow-card"
         style={{
           y: drivenY,
           rotate: drivenRotation,
           x: drivenX,
         }}
       >
-        <div id="metrics" className="flex w-full  justify-between">
-          <div>{id}/10</div>
-          <div>{score}</div>
+        <div
+          id="metrics"
+          className="flex w-full justify-between items-baseline"
+        >
+          <div className="text-grey-500">
+            <span className="text-[62px] leading-none">{id}</span>
+            <span className="text-[29px] ml-1">
+              /<span className="ml-[2px]">10</span>
+            </span>
+          </div>
+          <div className="flex ">
+            <div className="text-[50px] text-grey-500 leading-none">
+              {score}
+            </div>
+            <SvgIconScoreLeaf className="w-[30px] h-auto" />
+          </div>
         </div>
         <div
           id="illustration"
           className="w-2/3 mx-auto max-w-[200px] aspect-square rounded-full bg-green-500 mt-4"
         ></div>
-        <p id="affirmation" className="mt-6">
+        <p id="affirmation" className="mt-6 text-[20px]">
           {affirmation}
         </p>
       </motion.div>
