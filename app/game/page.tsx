@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,10 +17,17 @@ const Game = () => {
   const [cardAnimation, setCardAnimation] = useState(initialDrivenProps);
   const { game, handleSetOptions } = useGameContext();
   const { currentGame } = game;
+  const [direction, setDirection] = useState("");
+
+  const handleActionBtnOnClick = (btn: "left" | "right") => {
+    setDirection((state) => btn);
+  };
 
   useEffect(() => {
-    console.log("cardAnimation: ", cardAnimation);
-  }, [cardAnimation]);
+    if (["left", "right"].includes(direction))
+      handleSetOptions({ currentGame: game.currentGame.slice(0, -1) });
+    setDirection((state) => "");
+  }, [direction]);
 
   const cardVariants = {
     current: {
@@ -41,6 +49,9 @@ const Game = () => {
     },
     exit: {
       opacity: 0,
+      x: direction === "left" ? -300 : 300,
+      y: 40,
+      rotate: direction === "left" ? -20 : 20,
       transition: { duration: 0.3, ease: easeOutExpo },
     },
   };
@@ -89,15 +100,13 @@ const Game = () => {
             direction="left"
             ariaLabel="swipe left"
             scale={cardAnimation.buttonScaleBadAnswer}
-            game={game}
-            handleSetOptions={handleSetOptions}
+            onClick={() => handleActionBtnOnClick("left")}
           />
           <GameActionBtn
             direction="right"
             ariaLabel="swipe right"
             scale={cardAnimation.buttonScaleGoodAnswer}
-            game={game}
-            handleSetOptions={handleSetOptions}
+            onClick={() => handleActionBtnOnClick("right")}
           />
         </div>
       </div>

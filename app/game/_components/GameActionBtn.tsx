@@ -22,18 +22,18 @@ type Props = {
   ariaLabel: string;
   scale: number;
   direction: "left" | "right";
-  game: IGameState;
-  handleSetOptions: Dispatch<SetStateAction<any>>;
+  onClick: () => void;
 };
 
-const GameActionBtn = ({ scale, direction, game, handleSetOptions }: Props) => {
+const GameActionBtn = ({
+  scale,
+  direction,
+
+  onClick,
+}: Props) => {
   const Icon: React.ElementType = actionPropsMatrix[direction!].icon;
   return (
-    <button
-      onClick={() =>
-        handleSetOptions({ currentGame: game.currentGame.slice(0, -1) })
-      }
-    >
+    <button onClick={onClick}>
       <motion.div
         className={`flex items-center justify-center w-[60px] h-[60px] rounded-full ${actionPropsMatrix[direction].bgColorClass} shadow`}
         style={{ scale: scale }}
