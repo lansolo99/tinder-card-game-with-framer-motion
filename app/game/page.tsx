@@ -18,6 +18,7 @@ const initialDrivenProps = {
 
 const Game = () => {
   const [cardDrivenProps, setCardDrivenProps] = useState(initialDrivenProps);
+  const [isDragging, setIsDragging] = useState(false);
   const { game, handleSetOptions } = useGameContext();
   const { currentGame, score } = game;
   const [direction, setDirection] = useState("");
@@ -72,7 +73,9 @@ const Game = () => {
 
   return (
     <motion.main
-      className="container min-h-screen h-full mx-auto bg-red-500 flex p-5 flex-col justify-center items-center overflow-hidden"
+      className={`container min-h-screen h-full mx-auto bg-red-500 flex p-5 flex-col justify-center items-center overflow-hidden ${
+        isDragging ? "cursor-grabbing" : ""
+      }`}
       style={{ backgroundColor: cardDrivenProps.mainBgColor }}
     >
       <div
@@ -103,6 +106,8 @@ const Game = () => {
                     data={card}
                     id={card.id}
                     setCardDrivenProps={setCardDrivenProps}
+                    setIsDragging={setIsDragging}
+                    isDragging={isDragging}
                     isLast={isLast}
                   />
                 </motion.div>

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Image from "next/image";
 
 import { Player } from "@lottiefiles/react-lottie-player";
@@ -12,7 +12,6 @@ import {
   useMotionValue,
   useTransform,
   useMotionValueEvent,
-  cubicBezier,
 } from "framer-motion";
 
 import { useGameContext } from "@/store/gameContext";
@@ -23,12 +22,21 @@ type Props = {
   id: number;
   data: card;
   setCardDrivenProps: Dispatch<SetStateAction<any>>;
+  setIsDragging: Dispatch<SetStateAction<any>>;
+  isDragging: boolean;
   isLast: boolean;
 };
 
 type cardSwipeDirection = "left" | "right";
 
-const GameCard = ({ id, data, setCardDrivenProps, isLast }: Props) => {
+const GameCard = ({
+  id,
+  data,
+  setCardDrivenProps,
+  setIsDragging,
+  isDragging,
+  isLast,
+}: Props) => {
   const { game, handleSetOptions } = useGameContext();
   const { currentGame, score, previousScore } = game;
   const hasScoreIncreased = previousScore !== score;
@@ -90,7 +98,7 @@ const GameCard = ({ id, data, setCardDrivenProps, isLast }: Props) => {
     <>
       <motion.div
         id={`cardDrivenWrapper-${id}`}
-        className="absolute bg-white p-8 rounded-lg text-center w-full aspect-[100/150] pointer-events-none text-black origin-bottom shadow-card"
+        className="absolute bg-white p-8 rounded-lg text-center w-full aspect-[100/150] pointer-events-none text-black origin-bottom shadow-card select-none"
         style={{
           y: drivenY,
           rotate: drivenRotation,
@@ -145,7 +153,7 @@ const GameCard = ({ id, data, setCardDrivenProps, isLast }: Props) => {
         >
           <Image
             priority
-            className="absolute object-cover object-center "
+            className={`absolute object-cover object-center`}
             src={`/images/games/game-0-card-${illustration}.jpg`}
             fill
             sizes={`(max-width: 768px) 100vw, 250px`}
@@ -167,13 +175,17 @@ const GameCard = ({ id, data, setCardDrivenProps, isLast }: Props) => {
 
       <motion.div
         id={`cardDriverWrapper-${id}`}
-        className={`absolute w-full aspect-[100/150] hover:cursor-grab active:cursor-grab select-none`}
+        className={`absolute w-full aspect-[100/150] bg-red-500/40 ${
+          !isDragging ? "hover:cursor-grab" : ""
+        }`}
         drag="x"
         dragSnapToOrigin
         dragElastic={0.06}
         dragConstraints={{ left: 0, right: 0 }}
         dragTransition={{ bounceStiffness: 1000, bounceDamping: 50 }}
+        onDragStart={() => setIsDragging(true)}
         onDragEnd={(_, info) => {
+          setIsDragging(false);
           const isOffBoundary =
             info.offset.x > offsetBoundary || info.offset.x < -offsetBoundary;
           const direction = info.offset.x > 0 ? "right" : "left";
