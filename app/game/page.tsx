@@ -52,32 +52,6 @@ const Game = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      {/* <AnimatePresence mode="wait">
-        {!isCardStockEmpty ? (
-          <motion.div
-            key="gameScreen"
-            id="gameScreen"
-            variants={gameScreenVariants}
-            initial="initial"
-            animate="animate"
-            exit="initial"
-          >
-            <GameCards />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="gameScreen"
-            id="gameCompletion"
-            variants={gameScreenVariants}
-            initial="initial"
-            animate="animate"
-            exit="initial"
-            transition={{ duration: 3 }}
-          >
-            <GameCompletion />
-          </motion.div>
-        )}
-      </AnimatePresence> */}
     </main>
   );
 };
