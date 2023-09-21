@@ -17,7 +17,7 @@ const initialDrivenProps = {
 };
 
 const Game = () => {
-  const [cardAnimation, setCardAnimation] = useState(initialDrivenProps);
+  const [cardDrivenProps, setCardDrivenProps] = useState(initialDrivenProps);
   const { game, handleSetOptions } = useGameContext();
   const { currentGame, score } = game;
   const [direction, setDirection] = useState("");
@@ -37,6 +37,7 @@ const Game = () => {
       handleSetOptions({
         currentGame: currentGame.slice(0, -1),
         score: handleScore(direction as btnDirection),
+        previousScore: score,
       });
 
     setDirection("");
@@ -72,7 +73,7 @@ const Game = () => {
   return (
     <motion.main
       className="container min-h-screen h-full mx-auto bg-red-500 flex p-5 flex-col justify-center items-center overflow-hidden"
-      style={{ backgroundColor: cardAnimation.mainBgColor }}
+      style={{ backgroundColor: cardDrivenProps.mainBgColor }}
     >
       <div
         id="gameUIWrapper"
@@ -101,7 +102,7 @@ const Game = () => {
                   <GameCard
                     data={card}
                     id={card.id}
-                    setCardAnimation={setCardAnimation}
+                    setCardDrivenProps={setCardDrivenProps}
                     isLast={isLast}
                   />
                 </motion.div>
@@ -116,13 +117,13 @@ const Game = () => {
           <GameActionBtn
             direction="left"
             ariaLabel="swipe left"
-            scale={cardAnimation.buttonScaleBadAnswer}
+            scale={cardDrivenProps.buttonScaleBadAnswer}
             onClick={() => handleActionBtnOnClick("left")}
           />
           <GameActionBtn
             direction="right"
             ariaLabel="swipe right"
-            scale={cardAnimation.buttonScaleGoodAnswer}
+            scale={cardDrivenProps.buttonScaleGoodAnswer}
             onClick={() => handleActionBtnOnClick("right")}
           />
         </div>

@@ -18,12 +18,26 @@ const reversedCards = cards
 const initialState = {
   currentGame: reversedCards,
   score: 0,
+  previousScore: 0,
 };
 
 const GameContext = createContext<IGameContext>({} as IGameContext);
 
 const GameContextProvider: React.FC<IProvider> = ({ children }) => {
   const [options, setOptions] = useState<IGameState>(initialState);
+  useEffect(() => {
+    const { score, previousScore } = options;
+    let optionsUpdateTimeOut: string | number | NodeJS.Timeout | undefined;
+    if (score !== previousScore) {
+      optionsUpdateTimeOut = setTimeout(() => {
+        setOptions((state) => ({ ...state, previousScore: score }));
+      }, 400);
+    }
+
+    return () => {
+      clearTimeout(optionsUpdateTimeOut);
+    };
+  }, [options]);
 
   const handleSetOptions = (settings: IGameState) => {
     setOptions((state) => ({ ...state, ...settings }));

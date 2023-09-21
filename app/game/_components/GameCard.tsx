@@ -21,15 +21,16 @@ import SvgIconScoreLeaf from "@/components/svg/score-leaf.svg";
 type Props = {
   id: number;
   data: card;
-  setCardAnimation: Dispatch<SetStateAction<any>>;
+  setCardDrivenProps: Dispatch<SetStateAction<any>>;
   isLast: boolean;
 };
 
 type cardSwipeDirection = "left" | "right";
 
-const GameCard = ({ id, data, setCardAnimation, isLast }: Props) => {
+const GameCard = ({ id, data, setCardDrivenProps, isLast }: Props) => {
   const { game, handleSetOptions } = useGameContext();
-  const { currentGame, score } = game;
+  const { currentGame, score, previousScore } = game;
+  const hasScoreIncreased = previousScore !== score;
 
   const { affirmation, illustration } = data;
   const x = useMotionValue(0);
@@ -61,7 +62,7 @@ const GameCard = ({ id, data, setCardAnimation, isLast }: Props) => {
 
   useMotionValueEvent(drivenActionLeftScale, "change", (latest) => {
     //@ts-ignore
-    setCardAnimation((state) => ({
+    setCardDrivenProps((state) => ({
       ...state,
       buttonScaleBadAnswer: drivenActionLeftScale,
       buttonScaleGoodAnswer: drivenActionRightScale,
@@ -99,7 +100,7 @@ const GameCard = ({ id, data, setCardAnimation, isLast }: Props) => {
           <div id="score" className="flex relative">
             <div className="text-[50px] text-grey-500 leading-none relative">
               {score}
-              {isLast && (
+              {isLast && hasScoreIncreased && (
                 <div
                   id="sparks"
                   className="absolute w-[100px] h-[100px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[2]"
@@ -158,6 +159,7 @@ const GameCard = ({ id, data, setCardAnimation, isLast }: Props) => {
             handleSetOptions({
               currentGame: currentGame.slice(0, -1),
               score: handleScore(direction as cardSwipeDirection),
+              previousScore: score,
             });
           }
         }}
