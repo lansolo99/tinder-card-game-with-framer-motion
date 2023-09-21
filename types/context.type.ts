@@ -11,6 +11,7 @@ export interface IGameContext {
 
 export interface IGameState {
   currentGame: card[];
+  currentGameCardAmount: number;
   score: number;
   previousScore: number;
 }

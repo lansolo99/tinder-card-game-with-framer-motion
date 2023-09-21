@@ -112,7 +112,7 @@ const GameCard = ({
           <div className="text-grey-500">
             <span className="text-[62px] leading-none">{id}</span>
             <span className="text-[29px] ml-1">
-              /<span className="ml-[2px]">{}</span>
+              /<span className="ml-[2px]">{game.currentGameCardAmount}</span>
             </span>
           </div>
           <div id="score" className="flex relative">
@@ -191,9 +191,9 @@ const GameCard = ({
           const direction = info.offset.x > 0 ? "right" : "left";
           if (isOffBoundary) {
             handleSetOptions({
+              ...game,
               currentGame: currentGame.slice(0, -1),
               score: handleScore(direction as cardSwipeDirection),
-              previousScore: score,
             });
           }
         }}

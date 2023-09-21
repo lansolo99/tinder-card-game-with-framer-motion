@@ -18,6 +18,7 @@ const reversedCards = cards
 
 const initialState = {
   currentGame: reversedCards,
+  currentGameCardAmount: reversedCards.length,
   score: 0,
   previousScore: 0,
 };

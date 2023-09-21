@@ -17,7 +17,7 @@ const initialDrivenProps = {
 
 const GameCards = () => {
   const { game, handleSetOptions } = useGameContext();
-  const { currentGame, score } = game;
+  const { currentGame, score, currentGameCardAmount } = game;
 
   const [direction, setDirection] = useState("");
   const [cardDrivenProps, setCardDrivenProps] = useState(initialDrivenProps);
@@ -36,6 +36,7 @@ const GameCards = () => {
   useEffect(() => {
     if (["left", "right"].includes(direction))
       handleSetOptions({
+        ...game,
         currentGame: currentGame.slice(0, -1),
         score: handleScore(direction as btnDirection),
         previousScore: score,
