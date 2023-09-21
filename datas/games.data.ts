@@ -6,14 +6,14 @@ const games = [
         affirmation: "Plus de 40% des trajets en voiture font moins de 5km.",
         answer: "right",
         revised: "La plupart des trajets en voiture font moins de 5km.",
-        illustration: "car.jpg",
+        illustration: "car",
       },
       {
         affirmation:
           "En moyenne un français produit plus de 400kg de déchets par an.",
         answer: "left",
         revised: "Nous produisons plus de 400kg de déchets par an.",
-        illustration: "trash.jpg",
+        illustration: "waste",
       },
       {
         affirmation:
@@ -21,7 +21,7 @@ const games = [
         answer: "right",
         revised:
           "Un aller-retour Paris New-York émet 1,75 tonnes de CO2 par passager.",
-        illustration: "plane.jpg",
+        illustration: "plane",
       },
     ],
   },
