@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className="font-acuminLight">
+      <body className="font-acuminLight overflow-hidden">
         <GameContextProvider>{children}</GameContextProvider>
       </body>
     </html>

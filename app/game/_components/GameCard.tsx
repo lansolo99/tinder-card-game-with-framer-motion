@@ -175,7 +175,7 @@ const GameCard = ({
 
       <motion.div
         id={`cardDriverWrapper-${id}`}
-        className={`absolute w-full aspect-[100/150] bg-red-500/40 ${
+        className={`absolute w-full aspect-[100/150] ${
           !isDragging ? "hover:cursor-grab" : ""
         }`}
         drag="x"
