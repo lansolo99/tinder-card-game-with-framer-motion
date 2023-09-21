@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 
 import { Player } from "@lottiefiles/react-lottie-player";
@@ -112,7 +112,7 @@ const GameCard = ({
           <div className="text-grey-500">
             <span className="text-[62px] leading-none">{id}</span>
             <span className="text-[29px] ml-1">
-              /<span className="ml-[2px]">10</span>
+              /<span className="ml-[2px]">{}</span>
             </span>
           </div>
           <div id="score" className="flex relative">

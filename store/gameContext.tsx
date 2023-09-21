@@ -1,8 +1,9 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 
 import { IProvider, IGameContext, IGameState } from "@/types/context.type";
+import useDelayIncreasedScore from "./useDelayIncreasedScore";
 
 import { gamesData } from "@/datas";
 
@@ -25,19 +26,8 @@ const GameContext = createContext<IGameContext>({} as IGameContext);
 
 const GameContextProvider: React.FC<IProvider> = ({ children }) => {
   const [options, setOptions] = useState<IGameState>(initialState);
-  useEffect(() => {
-    const { score, previousScore } = options;
-    let optionsUpdateTimeOut: string | number | NodeJS.Timeout | undefined;
-    if (score !== previousScore) {
-      optionsUpdateTimeOut = setTimeout(() => {
-        setOptions((state) => ({ ...state, previousScore: score }));
-      }, 500);
-    }
 
-    return () => {
-      clearTimeout(optionsUpdateTimeOut);
-    };
-  }, [options]);
+  useDelayIncreasedScore({ options, setOptions });
 
   const handleSetOptions = (settings: IGameState) => {
     setOptions((state) => ({ ...state, ...settings }));
