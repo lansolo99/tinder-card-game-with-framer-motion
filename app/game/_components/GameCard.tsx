@@ -4,6 +4,9 @@
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 
+import { Player } from "@lottiefiles/react-lottie-player";
+import lottieJson from "@/assets/animations/data.json";
+
 import {
   motion,
   useMotionValue,
@@ -19,11 +22,12 @@ type Props = {
   id: number;
   data: card;
   setCardAnimation: Dispatch<SetStateAction<any>>;
+  isLast: boolean;
 };
 
 type cardSwipeDirection = "left" | "right";
 
-const GameCard = ({ id, data, setCardAnimation }: Props) => {
+const GameCard = ({ id, data, setCardAnimation, isLast }: Props) => {
   const { game, handleSetOptions } = useGameContext();
   const { currentGame, score } = game;
 
@@ -92,9 +96,22 @@ const GameCard = ({ id, data, setCardAnimation }: Props) => {
               /<span className="ml-[2px]">10</span>
             </span>
           </div>
-          <div className="flex ">
-            <div className="text-[50px] text-grey-500 leading-none">
+          <div id="score" className="flex relative">
+            <div className="text-[50px] text-grey-500 leading-none relative">
               {score}
+              {isLast && (
+                <div
+                  id="sparks"
+                  className="absolute w-[100px] h-[100px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[2]"
+                >
+                  <Player
+                    autoplay
+                    src={lottieJson}
+                    style={{ width: "100%", height: "100%" }}
+                    speed={2}
+                  ></Player>
+                </div>
+              )}
             </div>
             <SvgIconScoreLeaf className="w-[30px] h-auto" />
           </div>
@@ -104,6 +121,7 @@ const GameCard = ({ id, data, setCardAnimation }: Props) => {
           className="w-full mx-auto max-w-[250px] aspect-square rounded-full relative"
         >
           <Image
+            priority
             className="absolute object-cover object-center "
             src={`/images/games/game-0-card-${illustration}.jpg`}
             fill

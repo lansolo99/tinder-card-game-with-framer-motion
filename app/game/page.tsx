@@ -102,6 +102,7 @@ const Game = () => {
                     data={card}
                     id={card.id}
                     setCardAnimation={setCardAnimation}
+                    isLast={isLast}
                   />
                 </motion.div>
               );
