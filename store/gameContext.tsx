@@ -31,7 +31,7 @@ const GameContextProvider: React.FC<IProvider> = ({ children }) => {
     if (score !== previousScore) {
       optionsUpdateTimeOut = setTimeout(() => {
         setOptions((state) => ({ ...state, previousScore: score }));
-      }, 400);
+      }, 500);
     }
 
     return () => {

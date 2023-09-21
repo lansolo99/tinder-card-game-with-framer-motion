@@ -12,6 +12,7 @@ import {
   useMotionValue,
   useTransform,
   useMotionValueEvent,
+  cubicBezier,
 } from "framer-motion";
 
 import { useGameContext } from "@/store/gameContext";
@@ -34,6 +35,15 @@ const GameCard = ({ id, data, setCardDrivenProps, isLast }: Props) => {
 
   const { affirmation, illustration } = data;
   const x = useMotionValue(0);
+
+  const scoreVariants = {
+    initial: {
+      y: 0,
+    },
+    pop: {
+      y: [0, -15, -20, -15, 0],
+    },
+  };
 
   const inputX = [-150, 0, 150];
   const outputX = [-200, 0, 200];
@@ -99,7 +109,19 @@ const GameCard = ({ id, data, setCardDrivenProps, isLast }: Props) => {
           </div>
           <div id="score" className="flex relative">
             <div className="text-[50px] text-grey-500 leading-none relative">
-              {score}
+              <motion.div
+                id="scoreValue"
+                className="relative"
+                variants={scoreVariants}
+                initial="initial"
+                animate={isLast && hasScoreIncreased ? "pop" : "initial"}
+                transition={{
+                  stiffness: 2000,
+                  damping: 5,
+                }}
+              >
+                {score}
+              </motion.div>
               {isLast && hasScoreIncreased && (
                 <div
                   id="sparks"
@@ -114,7 +136,7 @@ const GameCard = ({ id, data, setCardDrivenProps, isLast }: Props) => {
                 </div>
               )}
             </div>
-            <SvgIconScoreLeaf className="w-[30px] h-auto" />
+            <SvgIconScoreLeaf className="w-[30px] h-auto relative top-[-3px]" />
           </div>
         </div>
         <div
