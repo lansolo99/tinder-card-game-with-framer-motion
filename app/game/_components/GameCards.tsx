@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
 
 import { useGameContext } from "@/store/gameContext";
 import { easeOutExpo } from "@/lib/easings.data";
@@ -74,11 +76,19 @@ const GameCards = () => {
 
   return (
     <motion.div
-      className={`flex p-5 min-h-screen h-full flex-col justify-center items-center overflow-hidden ${
+      className={`flex p-5 min-h-screen h-full flex-col justify-center items-center overflow-hidden bg-green-500 ${
         isDragging ? "cursor-grabbing" : ""
       }`}
       style={{ backgroundColor: cardDrivenProps.mainBgColor }}
     >
+      <Link
+        href="/"
+        id="close"
+        className="absolute top-[20px] right-[20px] w-[30px] h-auto"
+      >
+        <X className="text-gray-500 w-full h-full" />
+      </Link>
+
       <div
         id="gameUIWrapper"
         className="flex flex-col gap-6 w-full items-center justify-center"
