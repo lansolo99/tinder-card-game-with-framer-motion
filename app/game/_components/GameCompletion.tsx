@@ -27,10 +27,10 @@ const GameCompletion = () => {
         }}
         className="flex flex-col items-center justify-center text-center"
       >
-        <h1 className="uppercase text-5xl md:text-[60px] leading-tight font-acuminMedium">
+        <h1 className="text-5xl md:text-[60px] leading-tight font-acuminMedium">
           Quiz complete!
         </h1>
-        <p className="text-2xl">
+        <p className="text-2xl font-acuminMedium">
           Your score is {memoizedStats.current.score} on a total of{" "}
           {memoizedStats.current.currentGameCardAmount} questions.
         </p>
