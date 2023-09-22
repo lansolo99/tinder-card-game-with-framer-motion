@@ -1,4 +1,4 @@
-import { card } from "./games.type";
+import { card, Card } from "./games.type";
 
 export interface IProvider {
   children: React.ReactNode;
@@ -10,7 +10,8 @@ export interface IGameContext {
 }
 
 export interface IGameState {
-  currentGame: card[];
+  // currentGame: card[];
+  currentGame: Card[];
   currentGameCardAmount: number;
   score: number;
   previousScore: number;

@@ -10,7 +10,6 @@ type Props = {
 const useDelayIncreasedScore = ({ options, setOptions }: Props) => {
   const { score, previousScore } = options;
   useEffect(() => {
-    console.log("useDelayIncreasedScore");
     let optionsUpdateTimeOut: string | number | NodeJS.Timeout | undefined;
     if (score !== previousScore) {
       optionsUpdateTimeOut = setTimeout(() => {

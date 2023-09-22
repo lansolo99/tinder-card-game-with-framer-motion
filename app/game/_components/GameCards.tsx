@@ -34,10 +34,6 @@ const GameCards = () => {
   };
 
   useEffect(() => {
-    console.log("cardDrivenProps: ", cardDrivenProps.mainBgColor);
-  }, [cardDrivenProps]);
-
-  useEffect(() => {
     if (["left", "right"].includes(direction))
       handleSetOptions({
         ...game,

@@ -5,27 +5,12 @@ import { createContext, useContext, useState } from "react";
 import { IProvider, IGameContext, IGameState } from "@/types/context.type";
 import useDelayIncreasedScore from "./useDelayIncreasedScore";
 
-import { gamesData } from "@/datas";
-
-const game1 = gamesData[0];
-const { cards } = game1;
-
-const reversedCards = cards
-  .map((item, i) => {
-    return { ...item, id: i + 1 };
-  })
-  .reverse();
-
-const initialState = {
-  currentGame: reversedCards,
-  currentGameCardAmount: reversedCards.length,
-  score: 0,
-  previousScore: 0,
-};
+import { getGames, getGame, getInitialGame } from "@/api/games.api";
 
 const GameContext = createContext<IGameContext>({} as IGameContext);
 
 const GameContextProvider: React.FC<IProvider> = ({ children }) => {
+  const initialState = getInitialGame;
   const [options, setOptions] = useState<IGameState>(initialState);
 
   useDelayIncreasedScore({ options, setOptions });

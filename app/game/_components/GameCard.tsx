@@ -17,12 +17,12 @@ import {
 } from "framer-motion";
 
 import { useGameContext } from "@/store/gameContext";
-import { card } from "@/types/games.type";
+import { Card } from "@/types/games.type";
 import SvgIconScoreLeaf from "@/components/svg/score-leaf.svg";
 
 type Props = {
-  id: number;
-  data: card;
+  id?: number;
+  data: Card;
   setCardDrivenProps: Dispatch<SetStateAction<any>>;
   setIsDragging: Dispatch<SetStateAction<any>>;
   isDragging: boolean;
@@ -85,7 +85,6 @@ const GameCard = ({
   let drivenBg = useTransform(x, inputX, outputMainBgColor);
 
   useMotionValueEvent(x, "change", (latest) => {
-    // console.log(first)
     //@ts-ignore
     setCardDrivenProps((state) => ({
       ...state,
