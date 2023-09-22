@@ -17,7 +17,7 @@ const initialDrivenProps = {
 
 const GameCards = () => {
   const { game, handleSetOptions } = useGameContext();
-  const { currentGame, score, currentGameCardAmount } = game;
+  const { currentGame, score } = game;
 
   const [direction, setDirection] = useState("");
   const [cardDrivenProps, setCardDrivenProps] = useState(initialDrivenProps);
@@ -32,6 +32,10 @@ const GameCards = () => {
     const scoreIncrement = currentCard.answer === direction ? 1 : 0;
     return score + scoreIncrement;
   };
+
+  useEffect(() => {
+    console.log("cardDrivenProps: ", cardDrivenProps.mainBgColor);
+  }, [cardDrivenProps]);
 
   useEffect(() => {
     if (["left", "right"].includes(direction))
@@ -73,7 +77,7 @@ const GameCards = () => {
   };
 
   return (
-    <div
+    <motion.div
       className={`flex p-5 min-h-screen h-full flex-col justify-center items-center overflow-hidden ${
         isDragging ? "cursor-grabbing" : ""
       }`}
@@ -134,7 +138,7 @@ const GameCards = () => {
           />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

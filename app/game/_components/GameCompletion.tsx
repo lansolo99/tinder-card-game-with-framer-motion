@@ -6,7 +6,7 @@ const GameCompletion = () => {
   const { game, handleSetOptions } = useGameContext();
   return (
     <div
-      className={`flex p-5 min-h-screen h-full flex-col items-center justify-center`}
+      className={`flex p-5 min-h-screen h-full flex-col items-center justify-center  bg-purple-500`}
     >
       <h1 className="uppercase text-[60px]">Quiz complete!</h1>
       <p className="mt-2 text-2xl">

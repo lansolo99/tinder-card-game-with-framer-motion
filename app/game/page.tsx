@@ -21,7 +21,7 @@ const Game = () => {
   };
 
   return (
-    <main className="container min-h-screen h-full mx-auto bg-red-500">
+    <main className="min-h-screen h-full mx-auto ">
       <AnimatePresence mode="wait">
         {!isCardStockEmpty && (
           <motion.div

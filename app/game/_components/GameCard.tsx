@@ -7,6 +7,8 @@ import Image from "next/image";
 import { Player } from "@lottiefiles/react-lottie-player";
 import lottieJson from "@/assets/animations/data.json";
 
+import { themeColors } from "@/lib/theme";
+
 import {
   motion,
   useMotionValue,
@@ -59,7 +61,11 @@ const GameCard = ({
   const outputRotate = [-40, 0, 40];
   const outputActionScaleBadAnswer = [3, 1, 1];
   const outputActionScaleRightAnswer = [1, 1, 3];
-  const outputMainBgColor = ["#FF0000", "#daeff2", "#94ff00"];
+  const outputMainBgColor = [
+    themeColors.gameSwipe.left,
+    themeColors.gameSwipe.neutral,
+    themeColors.gameSwipe.right,
+  ];
 
   const offsetBoundary = 150;
 
@@ -78,7 +84,8 @@ const GameCard = ({
   );
   let drivenBg = useTransform(x, inputX, outputMainBgColor);
 
-  useMotionValueEvent(drivenActionLeftScale, "change", (latest) => {
+  useMotionValueEvent(x, "change", (latest) => {
+    // console.log(first)
     //@ts-ignore
     setCardDrivenProps((state) => ({
       ...state,

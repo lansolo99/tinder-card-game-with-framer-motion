@@ -19,6 +19,11 @@ const config: Config = {
         grey: {
           500: "#6A6A6A",
         },
+        gameSwipe: {
+          left: "#FF0000",
+          neutral: "#daeff2",
+          right: "#94ff00",
+        },
       },
       fontFamily: {
         sans: [...fontFamily.sans],
