@@ -25,7 +25,7 @@ const Game = () => {
   return (
     <main className="min-h-screen h-full mx-auto bg-gameSwipe-neutral">
       <AnimatePresence mode="wait">
-        {!isCardStockEmpty ? (
+        {isCardStockEmpty ? (
           <motion.div
             key="gameScreen1"
             id="gameScreen"

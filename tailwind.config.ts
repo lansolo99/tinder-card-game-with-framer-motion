@@ -19,6 +19,14 @@ const config: Config = {
         grey: {
           500: "#6A6A6A",
         },
+        blue: {
+          500: "#051B71",
+        },
+        green: {
+          300: "#D3E0BE",
+          800: "#5c7537",
+          900: "#34441c",
+        },
         gameSwipe: {
           left: "#FF0000",
           neutral: "#daeff2",

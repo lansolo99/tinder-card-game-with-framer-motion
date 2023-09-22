@@ -5,24 +5,26 @@ export const games: Game[] = [
     id: 1,
     cards: [
       {
-        affirmation: "Plus de 40% des trajets en voiture font moins de 5km.",
+        affirmation: "More than 40% of car journeys are less than 3mi.",
         answer: "right",
-        revised: "La plupart des trajets en voiture font moins de 5km.",
+        revised:
+          "It's true, 40% of car journeys are LESS than 3mi, which could be done on foot or by bike.",
         illustration: "car",
       },
       {
         affirmation:
-          "En moyenne un français produit plus de 400kg de déchets par an.",
+          "On average, a French person produces more than 400kg of waste per year.",
         answer: "left",
-        revised: "Nous produisons plus de 400kg de déchets par an.",
+        revised:
+          "A bit less: a French produces on average 380kg of waste per year, which remains far too much.",
         illustration: "waste",
       },
       {
         affirmation:
-          "Un aller-retour Paris New-York émet plus de 1,5 tonnes de CO2 par passager.",
+          "A Paris-New York round trip emits more than 1.5 tons of CO2 per passenger.",
         answer: "right",
         revised:
-          "Un aller-retour Paris New-York émet 1,75 tonnes de CO2 par passager.",
+          "It's actually higher: a Paris-New York round trip emits approximately 1.75 tonnes of CO2 per passenger, the equivalent of 3 months of heating for a French person.",
         illustration: "plane",
       },
     ],
