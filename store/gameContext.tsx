@@ -5,7 +5,7 @@ import { createContext, useContext, useState } from "react";
 import { IProvider, IGameContext, IGameState } from "@/types/context.type";
 import useDelayIncreasedScore from "./useDelayIncreasedScore";
 
-import { getGames, getGame, getInitialGame } from "@/api/games.api";
+import { getInitialGame } from "@/api/games.api";
 
 const GameContext = createContext<IGameContext>({} as IGameContext);
 

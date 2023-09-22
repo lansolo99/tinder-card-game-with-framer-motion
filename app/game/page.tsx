@@ -5,7 +5,7 @@ import { useGameContext } from "@/store/gameContext";
 import { motion, AnimatePresence, cubicBezier } from "framer-motion";
 
 const Game = () => {
-  const { game, handleSetOptions } = useGameContext();
+  const { game } = useGameContext();
 
   const isCardStockEmpty = game.currentGame.length === 0;
   const gameScreenVariants = {
@@ -25,7 +25,7 @@ const Game = () => {
   return (
     <main className="min-h-screen h-full mx-auto bg-gameSwipe-neutral">
       <AnimatePresence mode="wait">
-        {isCardStockEmpty ? (
+        {!isCardStockEmpty ? (
           <motion.div
             key="gameScreen1"
             id="gameScreen"
