@@ -2,7 +2,7 @@
 "use client";
 import { GameCards, GameCompletion } from "./_components";
 import { useGameContext } from "@/store/gameContext";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, cubicBezier } from "framer-motion";
 
 const Game = () => {
   const { game, handleSetOptions } = useGameContext();
@@ -14,39 +14,36 @@ const Game = () => {
     },
     animate: {
       opacity: 1,
+      transition: { duration: 2, ease: cubicBezier(0.16, 1, 0.3, 1) },
     },
     exit: {
       opacity: 0,
+      transition: { duration: 0.2, ease: cubicBezier(0.7, 0, 0.84, 0) },
     },
   };
 
   return (
-    <main className="min-h-screen h-full mx-auto ">
+    <main className="min-h-screen h-full mx-auto bg-gameSwipe-neutral">
       <AnimatePresence mode="wait">
-        {!isCardStockEmpty && (
+        {!isCardStockEmpty ? (
           <motion.div
-            key="gameScreen"
+            key="gameScreen1"
             id="gameScreen"
             variants={gameScreenVariants}
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ duration: 0.5, ease: "easeOut" }}
           >
             <GameCards />
           </motion.div>
-        )}
-      </AnimatePresence>
-      <AnimatePresence mode="wait">
-        {isCardStockEmpty && (
+        ) : (
           <motion.div
-            key="gameScreen"
+            key="gameScreen2"
             id="gameCompletion"
             variants={gameScreenVariants}
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ duration: 1, ease: "easeIn" }}
           >
             <GameCompletion />
           </motion.div>
