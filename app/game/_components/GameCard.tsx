@@ -115,7 +115,7 @@ const GameCard = ({
           id="metrics"
           className="flex w-full justify-between items-baseline"
         >
-          <div className="text-grey-500">
+          <div className="text-gray-500">
             <span className="text-[62px] leading-none">{id}</span>
             <span className="text-[29px] ml-1">
               /<span className="ml-[2px]">{game.currentGameCardAmount}</span>
