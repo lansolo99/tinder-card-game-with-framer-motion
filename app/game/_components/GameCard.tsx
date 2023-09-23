@@ -16,11 +16,12 @@ import {
 
 import { themeColors } from "@/lib/theme";
 
-import { useGameContext } from "@/store/gameContext";
 import { games } from "@/api/games.api";
+import { useGameContext } from "@/store/gameContext";
 import { useUserContext } from "@/store/userContext";
+import handleScore from "../_utils/handleScore";
 
-import { Card } from "@/types/games.type";
+import { type Card } from "@/types/games.type";
 import SvgIconScoreLeaf from "@/components/svg/score-leaf.svg";
 
 type Props = {
@@ -102,13 +103,6 @@ const GameCard = ({
       mainBgColor: drivenBg,
     }));
   });
-
-  //TODO: move this to a custom hook
-  const handleScore = (direction: cardSwipeDirection) => {
-    const currentCard = cards[cards.length - 1];
-    const scoreIncrement = currentCard.answer === direction ? 1 : 0;
-    return score + scoreIncrement;
-  };
 
   return (
     <>
@@ -207,12 +201,12 @@ const GameCard = ({
           const direction = info.offset.x > 0 ? "right" : "left";
 
           if (isOffBoundary) {
-            setGame2({
-              ...game2,
-              cards: game2.cards.slice(0, -1),
+            setGame({
+              ...game,
+              cards: game.cards.slice(0, -1),
             });
             setUser({
-              score: handleScore(direction as cardSwipeDirection),
+              score: handleScore({ direction, score, cards }),
               previousScore: score,
             });
           }

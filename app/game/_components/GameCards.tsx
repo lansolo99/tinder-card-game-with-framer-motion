@@ -8,11 +8,11 @@ import { X } from "lucide-react";
 
 import { useGameContext } from "@/store/gameContext";
 import { useUserContext } from "@/store/userContext";
+import handleScore from "../_utils/handleScore";
 
 import { easeOutExpo } from "@/lib/easings.data";
 import { GameActionBtn, GameCard } from "./";
-
-type btnDirection = "left" | "right";
+import { CardSwipeDirection } from "@/types/games.type";
 
 const initialDrivenProps = {
   buttonScaleBadAnswer: 1,
@@ -25,22 +25,14 @@ const GameCards = () => {
   const [game, setGame] = useGameContext();
 
   const { score } = user;
-
   const { cards } = game;
 
-  const [direction, setDirection] = useState("");
+  const [direction, setDirection] = useState<CardSwipeDirection | "">("");
   const [cardDrivenProps, setCardDrivenProps] = useState(initialDrivenProps);
   const [isDragging, setIsDragging] = useState(false);
 
-  const handleActionBtnOnClick = (btn: btnDirection) => {
+  const handleActionBtnOnClick = (btn: CardSwipeDirection) => {
     setDirection(btn);
-  };
-
-  //TODO: move this to a custom hook
-  const handleScore = (direction: btnDirection) => {
-    const currentCard = cards[cards.length - 1];
-    const scoreIncrement = currentCard.answer === direction ? 1 : 0;
-    return score + scoreIncrement;
   };
 
   useEffect(() => {
@@ -50,7 +42,7 @@ const GameCards = () => {
         cards: game.cards.slice(0, -1),
       });
       setUser({
-        score: handleScore(direction as btnDirection),
+        score: handleScore({ direction, score, cards }),
         previousScore: score,
       });
     }

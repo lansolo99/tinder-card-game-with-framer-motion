@@ -10,3 +10,5 @@ export type Card = {
   revised: string;
   illustration: string;
 };
+
+export type CardSwipeDirection = "left" | "right";
