@@ -1,18 +1,29 @@
+"use client";
 import { useRef } from "react";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui";
+
 import { useGameContext } from "@/store/gameContext";
 import { getInitialGame } from "@/api/games.api";
 
-import { Button } from "@/components/ui";
+import { user as initialUser } from "@/api/user.api";
+import { useUserContext } from "@/store/userContext";
 
 const GameCompletion = () => {
   const { game, handleSetOptions } = useGameContext();
   const newGame = getInitialGame();
 
+  const [user, setUser] = useUserContext();
+
   const memoizedStats = useRef({
-    score: structuredClone(game.score),
+    score: structuredClone(user.score),
     currentGameCardAmount: structuredClone(game.currentGameCardAmount),
   });
+
+  const handleReplay = () => {
+    handleSetOptions(newGame);
+    setUser(initialUser);
+  };
 
   return (
     <div
@@ -36,7 +47,10 @@ const GameCompletion = () => {
         </p>
         <div className="mt-8">
           <Button
-            onClick={() => handleSetOptions(newGame)}
+            // onClick={async () => {
+            //   setCart(await clearCartAction());
+            // }}
+            onClick={() => handleReplay()}
             className="bg-blue-500 text-[20px] uppercase px-8 pt-6 pb-5 text-white"
           >
             Replay

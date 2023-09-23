@@ -7,8 +7,6 @@ import Image from "next/image";
 import { Player } from "@lottiefiles/react-lottie-player";
 import lottieJson from "@/assets/animations/data.json";
 
-import { themeColors } from "@/lib/theme";
-
 import {
   motion,
   useMotionValue,
@@ -16,7 +14,11 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 
+import { themeColors } from "@/lib/theme";
+
 import { useGameContext } from "@/store/gameContext";
+import { useUserContext } from "@/store/userContext";
+
 import { Card } from "@/types/games.type";
 import SvgIconScoreLeaf from "@/components/svg/score-leaf.svg";
 
@@ -39,8 +41,13 @@ const GameCard = ({
   isDragging,
   isLast,
 }: Props) => {
+  const [user, setUser] = useUserContext();
+  const { score, previousScore } = user;
+
   const { game, handleSetOptions } = useGameContext();
-  const { currentGame, score, previousScore } = game;
+
+  const { currentGame } = game;
+
   const hasScoreIncreased = previousScore !== score;
 
   const { affirmation, illustration } = data;
@@ -174,7 +181,7 @@ const GameCard = ({
             }}
           />
         </div>
-        <p id="affirmation" className="mt-2 text-[20px]">
+        <p id="affirmation" className="mt-2 text-[20px] leading-tight">
           {affirmation}
         </p>
       </motion.div>
@@ -199,7 +206,10 @@ const GameCard = ({
             handleSetOptions({
               ...game,
               currentGame: currentGame.slice(0, -1),
+            });
+            setUser({
               score: handleScore(direction as cardSwipeDirection),
+              previousScore: score,
             });
           }
         }}

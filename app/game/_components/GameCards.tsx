@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
 import { useGameContext } from "@/store/gameContext";
+import { useUserContext } from "@/store/userContext";
+
 import { easeOutExpo } from "@/lib/easings.data";
 import { GameActionBtn, GameCard } from "./";
 
@@ -19,7 +21,9 @@ const initialDrivenProps = {
 
 const GameCards = () => {
   const { game, handleSetOptions } = useGameContext();
-  const { currentGame, score } = game;
+  const [user, setUser] = useUserContext();
+  const { score } = user;
+  const { currentGame } = game;
 
   const [direction, setDirection] = useState("");
   const [cardDrivenProps, setCardDrivenProps] = useState(initialDrivenProps);
@@ -40,9 +44,11 @@ const GameCards = () => {
       handleSetOptions({
         ...game,
         currentGame: currentGame.slice(0, -1),
-        score: handleScore(direction as btnDirection),
-        previousScore: score,
       });
+    setUser({
+      score: handleScore(direction as btnDirection),
+      previousScore: score,
+    });
 
     setDirection("");
   }, [direction]);

@@ -1,24 +1,29 @@
 import "./globals.css";
 import type { Metadata } from "next";
+
 import { GameContextProvider } from "@/store/gameContext";
-// import PageTransition from "@/components/ui/pageTransition";
+import UserProvider from "@/store/userContext";
+
+import { getUser } from "@/api/user.api";
 
 export const metadata: Metadata = {
   title: "Grand jeu des écogestes",
   description: "Grand jeu des écogestes",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const user = await getUser();
+
   return (
     <html lang="fr">
       <body className="font-acuminLight overflow-hidden ">
-        {/* <PageTransition> */}
-        <GameContextProvider>{children}</GameContextProvider>
-        {/* </PageTransition> */}
+        <UserProvider user={user}>
+          <GameContextProvider>{children}</GameContextProvider>
+        </UserProvider>
       </body>
     </html>
   );

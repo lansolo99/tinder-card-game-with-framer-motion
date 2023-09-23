@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { motion, AnimatePresence, cubicBezier } from "framer-motion";
+
 import { GameCards, GameCompletion } from "./_components";
 import { useGameContext } from "@/store/gameContext";
-import { motion, AnimatePresence, cubicBezier } from "framer-motion";
 
 const Game = () => {
   const { game } = useGameContext();
