@@ -1,4 +1,4 @@
-# Tinder like quiz game
+# tinder-card-game-with-framer-motion
 
 ## Lottie animation score
 

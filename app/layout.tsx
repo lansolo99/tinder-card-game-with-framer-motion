@@ -8,8 +8,8 @@ import { getUser } from "@/api/user.api";
 import { getGame } from "@/api/games.api";
 
 export const metadata: Metadata = {
-  title: "Grand jeu des écogestes",
-  description: "Grand jeu des écogestes",
+  title: "Tinder card game With Framer Motion",
+  description: "A quiz game based on the Tinder-like gesture",
 };
 
 export default async function RootLayout({
