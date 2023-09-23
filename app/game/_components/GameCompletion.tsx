@@ -4,10 +4,9 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui";
 
 import { user as initialUser } from "@/api/user.api";
-import { useUserContext } from "@/store/userContext";
-
 import { games, getInitialGame } from "@/api/games.api";
 
+import { useUserContext } from "@/store/userContext";
 import { useGameContext } from "@/store/gameContext";
 
 const GameCompletion = () => {

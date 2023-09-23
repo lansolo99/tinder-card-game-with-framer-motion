@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 
 import { Player } from "@lottiefiles/react-lottie-player";
@@ -51,6 +51,7 @@ const GameCard = ({
   const { cards } = game;
   const cardsAmount = games[game.id].cards.length;
 
+  const [imgLoadingComplete, setImgLoadingComplete] = useState(false);
   const hasScoreIncreased = previousScore !== score;
 
   const { affirmation, illustration } = data;
@@ -161,9 +162,23 @@ const GameCard = ({
           id="illustration"
           className="w-full mx-auto max-w-[250px] aspect-square rounded-full relative"
         >
+          <div
+            id="imgPlaceholder"
+            className="bg-gameSwipe-neutral absolute object-cover w-full h-full"
+            style={{
+              maskImage: `url('/images/gamecard-image-mask.png')`,
+              WebkitMaskImage: `url(/images/gamecard-image-mask.png)`,
+              maskSize: "contain",
+              WebkitMaskSize: "contain",
+              maskRepeat: "no-repeat",
+              WebkitMaskRepeat: "no-repeat",
+            }}
+          ></div>
           <Image
             priority
-            className={`absolute object-cover object-center`}
+            className={`absolute object-cover object-center ${
+              imgLoadingComplete ? "opacity-100" : "opacity-0"
+            } duration-500 ease-out`}
             src={`/images/games/game-0-card-${illustration}.jpg`}
             fill
             sizes={`(max-width: 768px) 100vw, 250px`}
@@ -176,6 +191,7 @@ const GameCard = ({
               maskRepeat: "no-repeat",
               WebkitMaskRepeat: "no-repeat",
             }}
+            onLoadingComplete={(img) => setImgLoadingComplete(true)}
           />
         </div>
         <p id="affirmation" className="mt-2 text-[20px] leading-tight">

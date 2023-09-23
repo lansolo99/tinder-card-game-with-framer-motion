@@ -3,10 +3,25 @@
 import { motion, AnimatePresence, cubicBezier } from "framer-motion";
 
 import { GameCards, GameCompletion } from "./_components";
+
+import { user as initialUser } from "@/api/user.api";
+import { getInitialGame } from "@/api/games.api";
+import { useUserContext } from "@/store/userContext";
 import { useGameContext } from "@/store/gameContext";
+import { useEffect } from "react";
 
 const Game = () => {
-  const [game] = useGameContext();
+  // const [game] = useGameContext();
+  const [game, setGame] = useGameContext();
+  const [_, setUser] = useUserContext();
+
+  const initialGame = getInitialGame(0);
+  console.log("Gamepagerender ");
+
+  useEffect(() => {
+    setUser(initialUser);
+    setGame(initialGame);
+  }, []);
 
   const isCardStockEmpty = game.cards.length === 0;
   const gameScreenVariants = {
