@@ -1,37 +1,33 @@
 "use client";
-
 import { createContext, useContext, useState } from "react";
+import { type Game } from "@/types/games.type";
 
-import { IProvider, IGameContext, IGameState } from "@/types/context.type";
-import useDelayIncreasedScore from "./useDelayIncreasedScore";
+const useGameState = (initialGame: Game) => useState<Game>(initialGame);
 
-import { getInitialGame } from "@/api/games.api";
+const GameContext = createContext<ReturnType<typeof useGameState> | null>(null);
 
-const GameContext = createContext<IGameContext>({} as IGameContext);
-
-const GameContextProvider: React.FC<IProvider> = ({ children }) => {
-  const initialState = getInitialGame;
-  const [options, setOptions] = useState<IGameState>(initialState);
-
-  useDelayIncreasedScore({ options, setOptions });
-
-  const handleSetOptions = (settings: IGameState) => {
-    setOptions((state) => ({ ...state, ...settings }));
-  };
+const GameProvider = ({
+  game: initialGame,
+  children,
+}: {
+  game: Game;
+  children: React.ReactNode;
+}) => {
+  const [game, setGame] = useGameState(initialGame);
 
   return (
-    <GameContext.Provider value={{ game: options, handleSetOptions }}>
+    <GameContext.Provider value={[game, setGame]}>
       {children}
     </GameContext.Provider>
   );
 };
 
-const useGameContext = () => {
-  const context = useContext(GameContext);
-  if (context === undefined) {
-    throw new Error("useGameContext must be used within a AuthProvider");
-  }
-  return context;
-};
+export default GameProvider;
 
-export { GameContextProvider, useGameContext };
+export const useGameContext = () => {
+  const user = useContext(GameContext);
+  if (!user) {
+    throw new Error("useUserContext must be used within a UserProvider");
+  }
+  return user;
+};

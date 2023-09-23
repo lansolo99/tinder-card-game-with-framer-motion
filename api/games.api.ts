@@ -31,27 +31,14 @@ export const games: Game[] = [
   },
 ];
 
-export const getInitialGame = () => {
-  const game1 = games[0];
-  const { cards } = game1;
-
-  const initialState = {
-    currentGame: reversedCards(cards),
-    currentGameCardAmount: reversedCards(cards).length,
-    score: 0,
-    previousScore: 0,
-  };
-
-  return initialState;
-};
-
 export const getGames = async (): Promise<Game[]> => games;
 
-export const getGame = async (gameId: number): Promise<Card[]> => {
-  const game = games[gameId];
-  const { cards } = game;
+export const getGame = async (gameId: number): Promise<Game> => {
+  return { id: gameId, cards: reversedCards(games[gameId].cards) };
+};
 
-  return reversedCards(cards);
+export const getInitialGame = (gameId: number) => {
+  return { id: gameId, cards: reversedCards(games[gameId].cards) };
 };
 
 const reversedCards = (cards: Card[]) => {

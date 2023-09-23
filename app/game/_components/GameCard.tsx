@@ -17,6 +17,7 @@ import {
 import { themeColors } from "@/lib/theme";
 
 import { useGameContext } from "@/store/gameContext";
+import { games } from "@/api/games.api";
 import { useUserContext } from "@/store/userContext";
 
 import { Card } from "@/types/games.type";
@@ -44,9 +45,10 @@ const GameCard = ({
   const [user, setUser] = useUserContext();
   const { score, previousScore } = user;
 
-  const { game, handleSetOptions } = useGameContext();
+  const [game, setGame] = useGameContext();
 
-  const { currentGame } = game;
+  const { cards } = game;
+  const cardsAmount = games[game.id].cards.length;
 
   const hasScoreIncreased = previousScore !== score;
 
@@ -101,8 +103,9 @@ const GameCard = ({
     }));
   });
 
+  //TODO: move this to a custom hook
   const handleScore = (direction: cardSwipeDirection) => {
-    const currentCard = currentGame[currentGame.length - 1];
+    const currentCard = cards[cards.length - 1];
     const scoreIncrement = currentCard.answer === direction ? 1 : 0;
     return score + scoreIncrement;
   };
@@ -125,7 +128,7 @@ const GameCard = ({
           <div className="text-gray-500">
             <span className="text-[62px] leading-none">{id}</span>
             <span className="text-[29px] ml-1">
-              /<span className="ml-[2px]">{game.currentGameCardAmount}</span>
+              /<span className="ml-[2px]">{cardsAmount}</span>
             </span>
           </div>
           <div id="score" className="flex relative">
@@ -202,10 +205,11 @@ const GameCard = ({
           const isOffBoundary =
             info.offset.x > offsetBoundary || info.offset.x < -offsetBoundary;
           const direction = info.offset.x > 0 ? "right" : "left";
+
           if (isOffBoundary) {
-            handleSetOptions({
-              ...game,
-              currentGame: currentGame.slice(0, -1),
+            setGame2({
+              ...game2,
+              cards: game2.cards.slice(0, -1),
             });
             setUser({
               score: handleScore(direction as cardSwipeDirection),

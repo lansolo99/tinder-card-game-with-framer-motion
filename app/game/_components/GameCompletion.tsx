@@ -3,26 +3,30 @@ import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui";
 
-import { useGameContext } from "@/store/gameContext";
-import { getInitialGame } from "@/api/games.api";
-
 import { user as initialUser } from "@/api/user.api";
 import { useUserContext } from "@/store/userContext";
 
+import { games, getInitialGame } from "@/api/games.api";
+
+import { useGameContext } from "@/store/gameContext";
+
 const GameCompletion = () => {
-  const { game, handleSetOptions } = useGameContext();
-  const newGame = getInitialGame();
+  const [game, setGame] = useGameContext();
+
+  const cardsAmount = games[game.id].cards.length;
+
+  const initialGame = getInitialGame(0);
 
   const [user, setUser] = useUserContext();
 
   const memoizedStats = useRef({
     score: structuredClone(user.score),
-    currentGameCardAmount: structuredClone(game.currentGameCardAmount),
+    cardsAmount: structuredClone(cardsAmount),
   });
 
   const handleReplay = () => {
-    handleSetOptions(newGame);
     setUser(initialUser);
+    setGame(initialGame);
   };
 
   return (
@@ -43,13 +47,10 @@ const GameCompletion = () => {
         </h1>
         <p className="text-2xl font-acuminMedium  text-gray-800/70">
           Your score is {memoizedStats.current.score} on a total of{" "}
-          {memoizedStats.current.currentGameCardAmount} questions.
+          {memoizedStats.current.cardsAmount} questions.
         </p>
         <div className="mt-8">
           <Button
-            // onClick={async () => {
-            //   setCart(await clearCartAction());
-            // }}
             onClick={() => handleReplay()}
             className="bg-blue-500 text-[20px] uppercase px-8 pt-6 pb-5 text-white"
           >

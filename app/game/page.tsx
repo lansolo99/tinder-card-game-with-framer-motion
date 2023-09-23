@@ -6,9 +6,9 @@ import { GameCards, GameCompletion } from "./_components";
 import { useGameContext } from "@/store/gameContext";
 
 const Game = () => {
-  const { game } = useGameContext();
+  const [game] = useGameContext();
 
-  const isCardStockEmpty = game.currentGame.length === 0;
+  const isCardStockEmpty = game.cards.length === 0;
   const gameScreenVariants = {
     initial: {
       opacity: 0,

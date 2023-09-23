@@ -1,21 +1,11 @@
 "use client";
-import React, { createContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import { type User } from "@/types/user.type";
-import useDelayedIncreasedScore from "./useDelayedIncreasedScore";
+import useUserDelayIncreaseScore from "./useUserDelayIncreaseScore";
 
 const useUserState = (initialUser: User) => useState<User>(initialUser);
 
-export const UserContext = createContext<ReturnType<
-  typeof useUserState
-> | null>(null);
-
-export const useUserContext = () => {
-  const user = React.useContext(UserContext);
-  if (!user) {
-    throw new Error("useCart must be used within a CartProvider");
-  }
-  return user;
-};
+const UserContext = createContext<ReturnType<typeof useUserState> | null>(null);
 
 const UserProvider = ({
   user: initialUser,
@@ -25,7 +15,7 @@ const UserProvider = ({
   children: React.ReactNode;
 }) => {
   const [user, setUser] = useUserState(initialUser);
-  useDelayedIncreasedScore({ user, setUser });
+  useUserDelayIncreaseScore({ user, setUser });
 
   return (
     <UserContext.Provider value={[user, setUser]}>
@@ -35,3 +25,11 @@ const UserProvider = ({
 };
 
 export default UserProvider;
+
+export const useUserContext = () => {
+  const user = useContext(UserContext);
+  if (!user) {
+    throw new Error("useUserContext must be used within a UserProvider");
+  }
+  return user;
+};

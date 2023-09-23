@@ -1,9 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
 import { motion } from "framer-motion";
 import SvgIconAnswerBad from "@/components/svg/icon-answer-bad.svg";
 import SvgIconAnswerGood from "@/components/svg/icon-answer-good.svg";
-
-import { IGameState } from "@/types/context.type";
 
 const actionPropsMatrix = {
   left: {

@@ -2,6 +2,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
@@ -20,10 +21,12 @@ const initialDrivenProps = {
 };
 
 const GameCards = () => {
-  const { game, handleSetOptions } = useGameContext();
   const [user, setUser] = useUserContext();
+  const [game, setGame] = useGameContext();
+
   const { score } = user;
-  const { currentGame } = game;
+
+  const { cards } = game;
 
   const [direction, setDirection] = useState("");
   const [cardDrivenProps, setCardDrivenProps] = useState(initialDrivenProps);
@@ -33,22 +36,24 @@ const GameCards = () => {
     setDirection(btn);
   };
 
+  //TODO: move this to a custom hook
   const handleScore = (direction: btnDirection) => {
-    const currentCard = currentGame[currentGame.length - 1];
+    const currentCard = cards[cards.length - 1];
     const scoreIncrement = currentCard.answer === direction ? 1 : 0;
     return score + scoreIncrement;
   };
 
   useEffect(() => {
-    if (["left", "right"].includes(direction))
-      handleSetOptions({
+    if (["left", "right"].includes(direction)) {
+      setGame({
         ...game,
-        currentGame: currentGame.slice(0, -1),
+        cards: game.cards.slice(0, -1),
       });
-    setUser({
-      score: handleScore(direction as btnDirection),
-      previousScore: score,
-    });
+      setUser({
+        score: handleScore(direction as btnDirection),
+        previousScore: score,
+      });
+    }
 
     setDirection("");
   }, [direction]);
@@ -104,9 +109,9 @@ const GameCards = () => {
           className="w-full aspect-[100/150] max-w-xs mb-[20px] relative "
         >
           <AnimatePresence>
-            {currentGame.map((card, i) => {
-              const isLast = i === currentGame.length - 1;
-              const isUpcoming = i === currentGame.length - 2;
+            {cards.map((card, i) => {
+              const isLast = i === cards.length - 1;
+              const isUpcoming = i === cards.length - 2;
               return (
                 <motion.div
                   key={`card-${i}`}
