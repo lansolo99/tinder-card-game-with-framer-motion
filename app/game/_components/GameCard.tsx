@@ -6,6 +6,7 @@ import Image from "next/image";
 
 import { Player } from "@lottiefiles/react-lottie-player";
 import lottieJson from "@/assets/animations/data.json";
+import { useMediaQuery } from "usehooks-ts";
 
 import {
   motion,
@@ -56,6 +57,8 @@ const GameCard = ({
 
   const { affirmation, illustration } = data;
   const x = useMotionValue(0);
+
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const scoreVariants = {
     initial: {
@@ -206,7 +209,7 @@ const GameCard = ({
         }`}
         drag="x"
         dragSnapToOrigin
-        dragElastic={0.06}
+        dragElastic={isMobile ? 0.2 : 0.06}
         dragConstraints={{ left: 0, right: 0 }}
         dragTransition={{ bounceStiffness: 1000, bounceDamping: 50 }}
         onDragStart={() => setIsDragging(true)}
