@@ -2,15 +2,16 @@
 import Image from "next/image";
 import { motion, AnimatePresence, cubicBezier } from "framer-motion";
 
-import { Button } from "@/components/ui";
+import { BgPattern, Button } from "@/components/ui";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <main className="min-h-screen h-full mx-auto bg-gameSwipe-neutral">
+      <BgPattern />
       <AnimatePresence mode="wait">
         <motion.div
-          className={`flex p-5 min-h-screen h-full flex-col items-center justify-center bg-gameSwipe.neutral text-gray-700 text-center`}
+          className={`relative z-10 flex p-5 min-h-screen h-full flex-col items-center justify-center bg-gameSwipe.neutral text-gray-700 text-center`}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{
             opacity: 1,
@@ -41,14 +42,14 @@ export default function Home() {
           <p className="text-2xl text-gray-800/70">
             Swipe left or right to answer the questions.
           </p>
-          <div className="mt-8">
+          <motion.div className="mt-8" whileTap={{ scale: 0.9 }}>
             <Button
               asChild
               className="bg-blue-500 text-[20px] font-acuminMedium uppercase px-8 pt-6 pb-5 text-white"
             >
               <Link href="/game">Start</Link>
             </Button>
-          </div>
+          </motion.div>
         </motion.div>
       </AnimatePresence>
     </main>

@@ -11,12 +11,10 @@ import { useGameContext } from "@/store/gameContext";
 import { useEffect } from "react";
 
 const Game = () => {
-  // const [game] = useGameContext();
   const [game, setGame] = useGameContext();
   const [_, setUser] = useUserContext();
 
   const initialGame = getInitialGame(0);
-  console.log("Gamepagerender ");
 
   useEffect(() => {
     setUser(initialUser);

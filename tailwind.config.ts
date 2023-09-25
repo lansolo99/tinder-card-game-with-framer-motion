@@ -28,9 +28,9 @@ const config: Config = {
           900: "#34441c",
         },
         gameSwipe: {
-          left: "#FF0000",
-          neutral: "#daeff2",
-          right: "#94ff00",
+          left: "#fcbab6",
+          neutral: "#fafafa",
+          right: "#D4E0B2",
         },
       },
       fontFamily: {

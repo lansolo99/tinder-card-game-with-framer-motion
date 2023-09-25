@@ -32,6 +32,7 @@ type Props = {
   setIsDragging: Dispatch<SetStateAction<any>>;
   isDragging: boolean;
   isLast: boolean;
+  setIsDragOffBoundary: Dispatch<SetStateAction<any>>;
 };
 
 type cardSwipeDirection = "left" | "right";
@@ -43,6 +44,7 @@ const GameCard = ({
   setIsDragging,
   isDragging,
   isLast,
+  setIsDragOffBoundary,
 }: Props) => {
   const [user, setUser] = useUserContext();
   const { score, previousScore } = user;
@@ -69,19 +71,19 @@ const GameCard = ({
     },
   };
 
-  const inputX = [-150, 0, 150];
+  const offsetBoundary = 150;
+
+  const inputX = [offsetBoundary * -1, 0, offsetBoundary];
   const outputX = [-200, 0, 200];
   const outputY = [50, 0, 50];
   const outputRotate = [-40, 0, 40];
-  const outputActionScaleBadAnswer = [3, 1, 1];
-  const outputActionScaleRightAnswer = [1, 1, 3];
+  const outputActionScaleBadAnswer = [3, 1, 0.3];
+  const outputActionScaleRightAnswer = [0.3, 1, 3];
   const outputMainBgColor = [
     themeColors.gameSwipe.left,
     themeColors.gameSwipe.neutral,
     themeColors.gameSwipe.right,
   ];
-
-  const offsetBoundary = 150;
 
   let drivenX = useTransform(x, inputX, outputX);
   let drivenY = useTransform(x, inputX, outputY);
@@ -96,12 +98,14 @@ const GameCard = ({
     inputX,
     outputActionScaleRightAnswer
   );
-  let drivenBg = useTransform(x, inputX, outputMainBgColor);
+  // let drivenBg = useTransform(x, inputX, outputMainBgColor);
+  let drivenBg = useTransform(x, [-20, 0, 20], outputMainBgColor);
 
   useMotionValueEvent(x, "change", (latest) => {
     //@ts-ignore
     setCardDrivenProps((state) => ({
       ...state,
+      cardWrapperX: latest,
       buttonScaleBadAnswer: drivenActionLeftScale,
       buttonScaleGoodAnswer: drivenActionRightScale,
       mainBgColor: drivenBg,
@@ -213,8 +217,20 @@ const GameCard = ({
         dragConstraints={{ left: 0, right: 0 }}
         dragTransition={{ bounceStiffness: 1000, bounceDamping: 50 }}
         onDragStart={() => setIsDragging(true)}
+        onDrag={(_, info) => {
+          const offset = info.offset.x;
+
+          if (offset < 0 && offset < offsetBoundary * -1) {
+            setIsDragOffBoundary("left");
+          } else if (offset > 0 && offset > offsetBoundary) {
+            setIsDragOffBoundary("right");
+          } else {
+            setIsDragOffBoundary(null);
+          }
+        }}
         onDragEnd={(_, info) => {
           setIsDragging(false);
+          setIsDragOffBoundary(null);
           const isOffBoundary =
             info.offset.x > offsetBoundary || info.offset.x < -offsetBoundary;
           const direction = info.offset.x > 0 ? "right" : "left";

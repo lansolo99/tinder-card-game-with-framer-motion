@@ -6,18 +6,21 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
+import { BgPattern } from "@/components/ui";
 import { useGameContext } from "@/store/gameContext";
 import { useUserContext } from "@/store/userContext";
+import { themeColors } from "@/lib/theme";
 import handleScore from "../_utils/handleScore";
 
 import { easeOutExpo } from "@/lib/easings.data";
 import { GameActionBtn, GameCard } from "./";
-import { CardSwipeDirection } from "@/types/games.type";
+import { CardSwipeDirection, IsDragOffBoundary } from "@/types/games.type";
 
 const initialDrivenProps = {
+  cardWrapperX: 0,
   buttonScaleBadAnswer: 1,
   buttonScaleGoodAnswer: 1,
-  mainBgColor: "#daeff2",
+  mainBgColor: themeColors.gameSwipe.neutral,
 };
 
 const GameCards = () => {
@@ -28,6 +31,8 @@ const GameCards = () => {
   const { cards } = game;
 
   const [direction, setDirection] = useState<CardSwipeDirection | "">("");
+  const [isDragOffBoundary, setIsDragOffBoundary] =
+    useState<IsDragOffBoundary>(null);
   const [cardDrivenProps, setCardDrivenProps] = useState(initialDrivenProps);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -79,11 +84,12 @@ const GameCards = () => {
 
   return (
     <motion.div
-      className={`flex p-5 min-h-screen h-full flex-col justify-center items-center overflow-hidden bg-green-500 ${
+      className={`flex p-5 min-h-screen h-full flex-col justify-center items-center overflow-hidden  ${
         isDragging ? "cursor-grabbing" : ""
       }`}
       style={{ backgroundColor: cardDrivenProps.mainBgColor }}
     >
+      <BgPattern />
       <Link
         href="/"
         id="close"
@@ -94,11 +100,11 @@ const GameCards = () => {
 
       <div
         id="gameUIWrapper"
-        className="flex flex-col gap-6 w-full items-center justify-center"
+        className="flex flex-col gap-6 w-full items-center justify-center relative z-10"
       >
         <div
           id="cardsWrapper"
-          className="w-full aspect-[100/150] max-w-xs mb-[20px] relative "
+          className="w-full aspect-[100/150] max-w-xs mb-[20px] relative z-10"
         >
           <AnimatePresence>
             {cards.map((card, i) => {
@@ -123,6 +129,7 @@ const GameCards = () => {
                     setIsDragging={setIsDragging}
                     isDragging={isDragging}
                     isLast={isLast}
+                    setIsDragOffBoundary={setIsDragOffBoundary}
                   />
                 </motion.div>
               );
@@ -131,18 +138,20 @@ const GameCards = () => {
         </div>
         <div
           id="actions"
-          className="flex items-center justify-center w-full  gap-4"
+          className="flex items-center justify-center w-full  gap-4 relative z-10"
         >
           <GameActionBtn
             direction="left"
             ariaLabel="swipe left"
             scale={cardDrivenProps.buttonScaleBadAnswer}
+            isDragOffBoundary={isDragOffBoundary}
             onClick={() => handleActionBtnOnClick("left")}
           />
           <GameActionBtn
             direction="right"
             ariaLabel="swipe right"
             scale={cardDrivenProps.buttonScaleGoodAnswer}
+            isDragOffBoundary={isDragOffBoundary}
             onClick={() => handleActionBtnOnClick("right")}
           />
         </div>
