@@ -33,6 +33,7 @@ type Props = {
   isDragging: boolean;
   isLast: boolean;
   setIsDragOffBoundary: Dispatch<SetStateAction<any>>;
+  setDirection: Dispatch<SetStateAction<any>>;
 };
 
 type cardSwipeDirection = "left" | "right";
@@ -45,6 +46,7 @@ const GameCard = ({
   isDragging,
   isLast,
   setIsDragOffBoundary,
+  setDirection
 }: Props) => {
   const [user, setUser] = useUserContext();
   const { score, previousScore } = user;
@@ -236,14 +238,7 @@ const GameCard = ({
           const direction = info.offset.x > 0 ? "right" : "left";
 
           if (isOffBoundary) {
-            setGame({
-              ...game,
-              cards: game.cards.slice(0, -1),
-            });
-            setUser({
-              score: handleScore({ direction, score, cards }),
-              previousScore: score,
-            });
+            setDirection(direction);
           }
         }}
         style={{ x }}
