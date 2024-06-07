@@ -130,6 +130,7 @@ const GameCards = () => {
                     isDragging={isDragging}
                     isLast={isLast}
                     setIsDragOffBoundary={setIsDragOffBoundary}
+                    setDirection={setDirection}
                   />
                 </motion.div>
               );
