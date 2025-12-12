@@ -5,7 +5,7 @@ import { motion, AnimatePresence, cubicBezier } from "framer-motion";
 
 import { GameCompletion } from "./_components";
 
-// Dynamic import para evitar SSR issues con Lottie Player
+// Dynamic import to avoid SSR issues with Lottie Player
 const GameCards = dynamicImport(() => import("./_components").then((mod) => ({ default: mod.GameCards })), {
   ssr: false,
 });
