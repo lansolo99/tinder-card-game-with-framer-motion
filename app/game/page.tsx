@@ -16,7 +16,7 @@ import { useUserContext } from "@/store/userContext";
 import { useGameContext } from "@/store/gameContext";
 import { useEffect } from "react";
 
-// Deshabilitar static generation para evitar problemas con Lottie Player
+// Disable static generation to avoid issues with Lottie Player
 export const dynamic = 'force-dynamic';
 
 const Game = () => {
