@@ -1,12 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 
-import { Player } from "@lottiefiles/react-lottie-player";
+import dynamic from "next/dynamic";
 import lottieJson from "@/assets/animations/data.json";
-import { useMediaQuery } from "usehooks-ts";
+
+// Dynamic import del Player para evitar SSR issues
+const Player = dynamic(
+  () => import("@lottiefiles/react-lottie-player").then((mod) => mod.Player),
+  { ssr: false }
+);
 
 import {
   motion,
@@ -61,8 +66,16 @@ const GameCard = ({
 
   const { affirmation, illustration } = data;
   const x = useMotionValue(0);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const scoreVariants = {
     initial: {

@@ -1,14 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import dynamicImport from "next/dynamic";
 import { motion, AnimatePresence, cubicBezier } from "framer-motion";
 
-import { GameCards, GameCompletion } from "./_components";
+import { GameCompletion } from "./_components";
+
+// Dynamic import para evitar SSR issues con Lottie Player
+const GameCards = dynamicImport(() => import("./_components").then((mod) => ({ default: mod.GameCards })), {
+  ssr: false,
+});
 
 import { user as initialUser } from "@/api/user.api";
 import { getInitialGame } from "@/api/games.api";
 import { useUserContext } from "@/store/userContext";
 import { useGameContext } from "@/store/gameContext";
 import { useEffect } from "react";
+
+// Deshabilitar static generation para evitar problemas con Lottie Player
+export const dynamic = 'force-dynamic';
 
 const Game = () => {
   const [game, setGame] = useGameContext();
