@@ -7,7 +7,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import lottieJson from "@/assets/animations/data.json";
 
-// Dynamic import del Player para evitar SSR issues
+// Dynamic import of Player to avoid SSR issues
 const Player = dynamic(
   () => import("@lottiefiles/react-lottie-player").then((mod) => mod.Player),
   { ssr: false }
